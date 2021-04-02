@@ -1,4 +1,5 @@
-﻿using HealthLogger.ViewModels;
+﻿using HealthLogger.Models;
+using HealthLogger.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

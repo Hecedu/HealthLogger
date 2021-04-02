@@ -18,10 +18,10 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Padding="10" Orientation="Horizontal" x:DataType="model:hint">
+                            <StackLayout Padding="10" Orientation="Horizontal" x:DataType="model:Hint">
 
                                 <StackLayout HorizontalOptions="StartAndExpand">
-                                    <Label Text="{Binding food.label}"
+                                    <Label Text="{Binding Food.Label}"
                                        FontAttributes="Bold" />
                                 </StackLayout>
 

@@ -18,5 +18,7 @@ namespace HealthLogger.Services
         Task<bool> DeleteActivityLogAsync(string id);
         Task<U> GetActivityLogAsync(string id);
         Task<IEnumerable<U>> GetActivityLogAsync(bool forceRefresh = false);
+        Task<int> GetCalorieGoal(bool forceRefresh = false);
+        Task<int> GetActiveMinutesGoal(bool forceRefresh = false);
     }
 }

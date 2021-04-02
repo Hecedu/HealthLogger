@@ -37,7 +37,7 @@ namespace HealthLogger.ViewModels
         private async void OnDelete()
         {
 
-            await DataStore.DeleteMealLogAsync(ActivityLog.Id);
+            await DataStore.DeleteActivityLogAsync(ActivityLog.Id);
             // This will pop the current page off the navigation stack
             await NavService.GoBack();
         }

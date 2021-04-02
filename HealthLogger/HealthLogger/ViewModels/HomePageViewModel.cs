@@ -13,15 +13,29 @@ namespace HealthLogger.ViewModels
 {
     public class HomePageViewModel : BaseViewModel
     {
-        public ObservableCollection<MealLog> MealLogs { get; }
+        public ObservableCollection<MealLog> MealLogs { get;  }
         public ObservableCollection<ActivityLog> ActivityLogs { get; }
+        public int CalorieGoal { get; set; }
+        public int ActiveMinutesGoal { get; set; }
+#pragma warning disable IDE1006 // Naming Styles
         public int totalCalories { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
         public int TotalCalories
         {
             get => totalCalories;
             set
             {
                 totalCalories = value;
+                OnPropertyChanged();
+            }
+        }
+        public int totalActiveMinutes { get; set; }
+        public int TotalActiveMinutes
+        {
+            get => totalActiveMinutes;
+            set
+            {
+                totalActiveMinutes = value;
                 OnPropertyChanged();
             }
         }
@@ -44,6 +58,7 @@ namespace HealthLogger.ViewModels
         {
             await LoadItems();
             TotalCalories = totalCalories;
+            TotalActiveMinutes = totalActiveMinutes;
         }
 
         async Task LoadItems()
@@ -70,9 +85,13 @@ namespace HealthLogger.ViewModels
                     if (activityLog.Date.Date == DateTime.Today.Date)
                     {
                         totalCalories -= activityLog.CaloriesBurnt;
+                        totalActiveMinutes += activityLog.ActiveMinutes;
                         ActivityLogs.Add(activityLog);
                     }
                 }
+                CalorieGoal = await DataStore.GetCalorieGoal(true);
+                ActiveMinutesGoal = await DataStore.GetActiveMinutesGoal(true);
+
             }
             catch (Exception ex)
             {

@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace HealthLogger.ViewModels
 {
@@ -16,6 +17,7 @@ namespace HealthLogger.ViewModels
         {
             MealLogs = new ObservableCollection<MealLog>();
         }
+        public Command<MealLog> ViewMealLogCommand => new Command<MealLog>(async entry => await NavService.NavigateTo<MealLogDetailViewModel, MealLog>(entry));
         async public override void Init()
         {
             await LoadItems();

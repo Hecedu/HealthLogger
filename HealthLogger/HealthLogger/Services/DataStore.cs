@@ -11,6 +11,8 @@ namespace HealthLogger.Services
     {
         readonly List<MealLog> MealLogs;
         readonly List<ActivityLog> ActivityLogs;
+        readonly int CalorieGoal;
+        readonly int ActiveMinuteGoal;
 
         public DataStore()
         {
@@ -26,6 +28,8 @@ namespace HealthLogger.Services
                 new ActivityLog {Id = Guid.NewGuid().ToString(), Name = "Run", Date = DateTime.Now, ActiveMinutes = 10, CaloriesBurnt = 100},
                 new ActivityLog {Id = Guid.NewGuid().ToString(), Name = "Intense Cardio", Date = DateTime.Now, ActiveMinutes = 20, CaloriesBurnt = 350}
             };
+            CalorieGoal = 2500;
+            ActiveMinuteGoal = 45;
         }
 
         public async Task<bool> AddMealLogAsync(MealLog mealLog)
@@ -93,6 +97,16 @@ namespace HealthLogger.Services
         public async Task<IEnumerable<ActivityLog>> GetActivityLogAsync(bool forceRefresh = false)
         {
             return await Task.FromResult(ActivityLogs);
+        }
+
+        public async Task<int> GetCalorieGoal(bool forceRefresh = false)
+        {
+            return await Task.FromResult(CalorieGoal);
+        }
+
+        public async Task<int> GetActiveMinutesGoal(bool forceRefresh = false)
+        {
+            return await Task.FromResult(ActiveMinuteGoal);
         }
     }
 }

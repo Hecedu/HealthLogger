@@ -12,7 +12,7 @@ namespace HealthLogger.ViewModels
 {
     class SearchMealLogViewModel : BaseViewModel
     {
-        public ObservableCollection<hint> MyFoodList { get; set; }
+        public ObservableCollection<Hint> MyFoodList { get; set; }
         FoodResult _foodResult;
         public FoodResult FoodResult
         {
@@ -20,7 +20,7 @@ namespace HealthLogger.ViewModels
             set
             {
                 _foodResult = value;
-                MyFoodList = new ObservableCollection<hint>(value.hints);
+                MyFoodList = new ObservableCollection<Hint>(value.Hints);
                 OnPropertyChanged();
             }
         }
@@ -35,7 +35,7 @@ namespace HealthLogger.ViewModels
             OnPropertyChanged(nameof(FoodResult));
         }
 
-        public Command<hint> AddMealLogCommand => new Command<hint>(async entry => await OnSave(entry));
+        public Command<Hint> AddMealLogCommand => new Command<Hint>(async entry => await OnSave(entry));
 
         public Command<string> PerformSearch => new Command<string>(async (string query) =>
         {
@@ -45,17 +45,17 @@ namespace HealthLogger.ViewModels
         
         public SearchMealLogViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore, IFoodService foodService) : base(navService, dataStore, foodService)
         {
-            MyFoodList = new ObservableCollection<hint>();
+            MyFoodList = new ObservableCollection<Hint>();
         }
 
-        private async Task OnSave(hint entry)
+        private async Task OnSave(Hint entry)
         {
             MealLog newItem = new MealLog()
             {
                 Id = Guid.NewGuid().ToString(),
-                Calories = Convert.ToInt32(entry.food.nutrients.ENERC_KCAL),
+                Calories = Convert.ToInt32(entry.Food.Nutrients.ENERC_KCAL),
                 Date = DateTime.Now,
-                Name = entry.food.label
+                Name = entry.Food.Label
             };
 
             await DataStore.AddMealLogAsync(newItem);

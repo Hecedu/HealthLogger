@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace HealthLogger.ViewModels 
 {
@@ -20,6 +21,8 @@ namespace HealthLogger.ViewModels
         {
             await LoadItems();
         }
+        public Command<ActivityLog> ViewActivityLogCommand => new Command<ActivityLog>(async entry => await NavService.NavigateTo<ActivityLogDetailViewModel, ActivityLog>(entry));
+
         async Task LoadItems()
         {
             IsBusy = true;
