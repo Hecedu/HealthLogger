@@ -34,10 +34,11 @@ namespace HealthLogger.ViewModels
 
         public Command<MealLog> ViewMealLogCommand => new Command<MealLog>(async entry => await NavService.NavigateTo<MealLogDetailViewModel, MealLog>(entry));
         public Command<ActivityLog> ViewActivityLogCommand => new Command<ActivityLog>(async entry => await NavService.NavigateTo<ActivityLogDetailViewModel, ActivityLog>(entry));
-        //public Command AddMealLogCommand => new Command(async () => await NavService.NavigateTo<NewMealLogViewModel>());
-        public Command AddMealLogCommand => new Command(async () => await NavService.NavigateTo<SearchMealLogViewModel>());
+        public Command AddMealLogCommand => new Command(async () => await NavService.NavigateTo<NewMealLogViewModel>());
+        public Command SearchMealLogCommand => new Command(async () => await NavService.NavigateTo<SearchMealLogViewModel>());
+        public Command ViewAllMealLogCommand => new Command(async () => await NavService.NavigateTo<ViewAllMealLogViewModel>());
         public Command AddActivityLogCommand => new Command(async () => await NavService.NavigateTo<NewActivityLogViewModel>());
-
+        public Command ViewAllActivityLogCommand => new Command(async () => await NavService.NavigateTo<ViewAllActivityLogViewModel>());
 
         async public override void Init()
         {
@@ -57,14 +58,20 @@ namespace HealthLogger.ViewModels
                 var mealLogs = await DataStore.GetMealLogAsync(true);
                 foreach (var mealLog in mealLogs)
                 {
-                    totalCalories += mealLog.Calories;
-                    MealLogs.Add(mealLog);
+                    if (mealLog.Date.Date == DateTime.Today.Date)
+                    {
+                        totalCalories += mealLog.Calories;
+                        MealLogs.Add(mealLog);
+                    }
                 }
                 var activityLogs = await DataStore.GetActivityLogAsync(true);
                 foreach (var activityLog in activityLogs)
                 {
-                    totalCalories -= activityLog.CaloriesBurnt;
-                    ActivityLogs.Add(activityLog);
+                    if (activityLog.Date.Date == DateTime.Today.Date)
+                    {
+                        totalCalories -= activityLog.CaloriesBurnt;
+                        ActivityLogs.Add(activityLog);
+                    }
                 }
             }
             catch (Exception ex)

@@ -10,8 +10,6 @@ namespace HealthLogger.Models
         public List<food> parsed { get; set; }
         public List<hint> hints { get; set; }
         public List<link> links { get; set; }
-
-
     }
     public class hint
     {

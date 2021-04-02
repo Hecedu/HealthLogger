@@ -30,7 +30,7 @@ namespace HealthLogger.Services
 
         public async Task<bool> AddMealLogAsync(MealLog mealLog)
         {
-            MealLogs.Add(mealLog);
+            MealLogs.Insert(0, mealLog);
 
             return await Task.FromResult(true);
         }

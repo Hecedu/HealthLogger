@@ -2,13 +2,13 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:viewmodels="clr-namespace:HealthLogger.ViewModels" x:DataType="viewmodels:ActivityLogDetailViewModel"
              x:Class="HealthLogger.Views.ActivityLogDetailPage"
-             Title="Details">
+             Title="Activity Details">
 
     <StackLayout Spacing="10" Padding="10">
         <Label Text="{Binding ActivityLog.Name}" FontSize="Large" FontAttributes="Bold" TextColor="Black" />
-        <Label Text="{Binding ActivityLog.Date}" FontSize="Small" TextColor="Gray" />
-        <Label Text="{Binding ActivityLog.ActiveMinutes}" FontSize="Medium" TextColor="Black" />
-        <Label Text="{Binding ActivityLog.CaloriesBurnt}" FontSize="Medium" TextColor="Black" />
+        <Label Text="{Binding ActivityLog.Date, StringFormat='{}Date: {0}'}" FontSize="Small" TextColor="Gray" />
+        <Label Text="{Binding ActivityLog.ActiveMinutes, StringFormat='{}Active minutes: {0}'}" FontSize="Medium" TextColor="Black" />
+        <Label Text="{Binding ActivityLog.CaloriesBurnt, StringFormat='{}Calories burnt: {0}'}" FontSize="Medium" TextColor="Black" />
 
 
 

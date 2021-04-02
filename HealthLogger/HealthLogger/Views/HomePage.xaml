@@ -7,6 +7,7 @@
              x:Name="BrowseItemsPage">
 
     <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Search Meal" Command="{Binding SearchMealLogCommand}" />
         <ToolbarItem Text="Log Meal" Command="{Binding AddMealLogCommand}" />
         <ToolbarItem Text="Log Activity" Command="{Binding AddActivityLogCommand}" />
     </ContentPage.ToolbarItems>
@@ -22,80 +23,82 @@
                 <Label Text="{Binding TotalCalories}" 
                             LineBreakMode="NoWrap" 
                             Style="{DynamicResource ListItemTextStyle}" 
-                            FontSize="30"
+                            FontSize="50"
                                FontAttributes="Bold"
                                TextColor="Black"
                             HorizontalOptions="CenterAndExpand"/>
-                <Label Text="Today's Meals:" FontSize="Medium" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
             </StackLayout>
-
-            <CollectionView x:Name="MealListView"
+            
+            <StackLayout>
+                <Label Text="Today's Meals:" FontSize="Medium" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
+                <CollectionView x:Name="MealListView"
                 HeightRequest="125"
                 SelectionMode="None"
                 ItemsSource="{Binding MealLogs}"
                 ItemsLayout="HorizontalList">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Padding="10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="35" />
-                                <RowDefinition Height="35" />
-                                <RowDefinition Height="35" />
-                            </Grid.RowDefinitions>
-                            <StackLayout Padding="10" x:DataType="model:MealLog">
-                                <Label Text="{Binding Name}" 
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="35" />
+                                    <RowDefinition Height="35" />
+                                    <RowDefinition Height="35" />
+                                </Grid.RowDefinitions>
+                                <StackLayout Padding="10" x:DataType="model:MealLog">
+                                    <Label Text="{Binding Name}" 
                             Grid.Row="1"
                             LineBreakMode="NoWrap" 
                             Style="{DynamicResource ListItemTextStyle}" 
                             FontSize="25"
                                FontAttributes="Bold"
                                TextColor="Black" />
-                                <Label Text="{Binding Date}" 
+                                    <Label Text="{Binding Date}" 
                             Grid.Row="2"
                             LineBreakMode="NoWrap"
                             Style="{DynamicResource ListItemDetailTextStyle}"
                             FontSize="10"
                                TextColor="Black" />
 
-                                <Label Text="{Binding Calories, StringFormat='{}Calories: {0}'}" 
+                                    <Label Text="{Binding Calories, StringFormat='{}Calories: {0}'}" 
                             Grid.Row="3"                                   
                             LineBreakMode="NoWrap"
                             Style="{DynamicResource ListItemDetailTextStyle}"
                             FontSize="15"
                                TextColor="Black" />
-                                <StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer 
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer 
                                 NumberOfTapsRequired="1"
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type local:HomePageViewModel}}, Path=ViewMealLogCommand}"		
                                 CommandParameter="{Binding}">
-                                    </TapGestureRecognizer>
-                                </StackLayout.GestureRecognizers>
-                            </StackLayout>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-
-            <StackLayout Spacing="3" Padding="15">
-                <Label Text="Today's Activities:" FontSize="Medium" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
+                                        </TapGestureRecognizer>
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Button Text="View all Meal Logs" Command="{Binding ViewAllMealLogCommand}" HorizontalOptions="FillAndExpand"></Button>
             </StackLayout>
             
-            <CollectionView x:Name="ActivityListView"
+
+            <StackLayout>
+                <Label Text="Today's Activities:" FontSize="Medium" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
+                <CollectionView x:Name="ActivityListView"
                 HeightRequest="125"
                 SelectionMode="None"
                 ItemsSource="{Binding ActivityLogs}"
                 ItemsLayout="HorizontalList">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Padding="10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="35" />
-                                <RowDefinition Height="35" />
-                                <RowDefinition Height="35" />
-                                <RowDefinition Height="35" />
-                            </Grid.RowDefinitions>
-                            <StackLayout Padding="10" x:DataType="model:ActivityLog">
-                                <Label Text="{Binding Name}" 
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="35" />
+                                    <RowDefinition Height="35" />
+                                    <RowDefinition Height="35" />
+                                    <RowDefinition Height="35" />
+                                </Grid.RowDefinitions>
+                                <StackLayout Padding="10" x:DataType="model:ActivityLog">
+                                    <Label Text="{Binding Name}" 
                                     Grid.Row="1"
                                     LineBreakMode="NoWrap" 
                                     Style="{DynamicResource ListItemTextStyle}" 
@@ -103,7 +106,7 @@
                                        FontAttributes="Bold"
                                        TextColor="Black" 
                                  />
-                                <Label Text="{Binding Date}" 
+                                    <Label Text="{Binding Date}" 
                                     Grid.Row="2"
                                     LineBreakMode="NoWrap"
                                     Style="{DynamicResource ListItemDetailTextStyle}"
@@ -111,32 +114,36 @@
                                        TextColor="Black" 
                                  />
 
-                                <Label Text="{Binding ActiveMinutes, StringFormat='{}Active minutes: {0}'}" 
+                                    <Label Text="{Binding ActiveMinutes, StringFormat='{}Active minutes: {0}'}" 
                                     Grid.Row="3"                                   
                                     LineBreakMode="NoWrap"
                                     Style="{DynamicResource ListItemDetailTextStyle}"
                                     FontSize="15"
                                        TextColor="Black" 
                                  />
-                                <Label Text="{Binding CaloriesBurnt, StringFormat='{}Calories burnt: {0}'}" 
+                                    <Label Text="{Binding CaloriesBurnt, StringFormat='{}Calories burnt: {0}'}" 
                                     Grid.Row="4"                                   
                                     LineBreakMode="NoWrap"
                                     Style="{DynamicResource ListItemDetailTextStyle}"
                                     FontSize="15"
                                        TextColor="Black" 
                                  />
-                                <StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer 
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer 
                                 NumberOfTapsRequired="1"
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type local:HomePageViewModel}}, Path=ViewActivityLogCommand}"		
                                 CommandParameter="{Binding}">
-                                    </TapGestureRecognizer>
-                                </StackLayout.GestureRecognizers>
-                            </StackLayout>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                                        </TapGestureRecognizer>
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Button Text="View all Activity Logs" Command="{Binding ViewAllActivityLogCommand}" HorizontalOptions="FillAndExpand"></Button>
+            </StackLayout>
+            
+           
 
         </StackLayout>
     </ContentPage.Content>

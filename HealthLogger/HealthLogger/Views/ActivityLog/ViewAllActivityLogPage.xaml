@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:HealthLogger.ViewModels"  
+             xmlns:model="clr-namespace:HealthLogger.Models" x:DataType="local:ViewAllActivityLogViewModel"
+             x:Class="HealthLogger.Views.ViewAllActivityLogPage">
+    
+    <ContentPage.Content>
+        <CollectionView x:Name="ActivityListView"
+                HeightRequest="125"
+                SelectionMode="None"
+                ItemsSource="{Binding ActivityLogs}"
+                ItemsLayout="VerticalList">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="35" />
+                        </Grid.RowDefinitions>
+                        <StackLayout Padding="10" x:DataType="model:ActivityLog">
+                            <Label Text="{Binding Name}" 
+                                    Grid.Row="1"
+                                    LineBreakMode="NoWrap" 
+                                    Style="{DynamicResource ListItemTextStyle}" 
+                                    FontSize="25"
+                                       FontAttributes="Bold"
+                                       TextColor="Black" 
+                                 />
+                            <Label Text="{Binding Date}" 
+                                    Grid.Row="2"
+                                    LineBreakMode="NoWrap"
+                                    Style="{DynamicResource ListItemDetailTextStyle}"
+                                    FontSize="10"
+                                       TextColor="Black" 
+                                 />
+
+                            <Label Text="{Binding ActiveMinutes, StringFormat='{}Active minutes: {0}'}" 
+                                    Grid.Row="3"                                   
+                                    LineBreakMode="NoWrap"
+                                    Style="{DynamicResource ListItemDetailTextStyle}"
+                                    FontSize="15"
+                                       TextColor="Black" 
+                                 />
+                            <Label Text="{Binding CaloriesBurnt, StringFormat='{}Calories burnt: {0}'}" 
+                                    Grid.Row="4"                                   
+                                    LineBreakMode="NoWrap"
+                                    Style="{DynamicResource ListItemDetailTextStyle}"
+                                    FontSize="15"
+                                       TextColor="Black" 
+                                 />
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                NumberOfTapsRequired="1"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:ViewAllActivityLogViewModel}}, Path=ViewActivityLogCommand}"		
+                                CommandParameter="{Binding}">
+                                </TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </ContentPage.Content>
+</ContentPage>

@@ -2,12 +2,12 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:viewmodels="clr-namespace:HealthLogger.ViewModels" x:DataType="viewmodels:MealLogDetailViewModel"
              x:Class="HealthLogger.Views.MealLogDetailPage"
-             Title="Details">
+             Title="Meal Details">
 
     <StackLayout Spacing="10" Padding="10">
         <Label Text="{Binding MealLog.Name}" FontSize="Large" FontAttributes="Bold" TextColor="Black" />
-        <Label Text="{Binding MealLog.Date}" FontSize="Small" TextColor="Gray" />
-        <Label Text="{Binding MealLog.Calories}" FontSize="Medium" TextColor="Black" />
+        <Label Text="{Binding MealLog.Date, StringFormat='{}Date: {0}'}" FontSize="Small" TextColor="Gray" />
+        <Label Text="{Binding MealLog.Calories, StringFormat='{}Calories: {0}'}" FontSize="Medium" TextColor="Black" />
 
 
 

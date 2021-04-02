@@ -29,5 +29,10 @@ namespace HealthLogger.Views
             FoodListView.ItemsSource = ViewModel.MyFoodList.Take(5);
             FoodListView.EndRefresh();
         }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ViewModel?.Init();
+        }
     }
 }
