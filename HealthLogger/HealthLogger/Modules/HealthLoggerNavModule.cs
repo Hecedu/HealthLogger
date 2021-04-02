@@ -16,6 +16,7 @@ namespace HealthLogger.Modules
             navService.RegisterViewMapping(typeof(HomePageViewModel), typeof(HomePage));
             navService.RegisterViewMapping(typeof(MealLogDetailViewModel), typeof(MealLogDetailPage));
             navService.RegisterViewMapping(typeof(NewMealLogViewModel), typeof(NewMealLogPage));
+            navService.RegisterViewMapping(typeof(SearchMealLogViewModel), typeof(SearchMealLogPage));
             navService.RegisterViewMapping(typeof(ActivityLogDetailViewModel), typeof(ActivityLogDetailPage));
             navService.RegisterViewMapping(typeof(NewActivityLogViewModel), typeof(NewActivityLogPage));
 

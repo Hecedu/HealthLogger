@@ -16,6 +16,7 @@ namespace HealthLogger.Modules
             Bind<ActivityLogDetailViewModel>().ToSelf();
             Bind<HomePageViewModel>().ToSelf();
             Bind<IDataStore<MealLog,ActivityLog>>().To<DataStore>().InSingletonScope();
+            Bind<IFoodService>().To<FoodService>().InSingletonScope();
         }
     }
 }

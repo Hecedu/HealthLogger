@@ -17,6 +17,7 @@ namespace HealthLogger
             InitializeComponent();
             Routing.RegisterRoute(nameof(MealLogDetailPage), typeof(MealLogDetailPage));
             Routing.RegisterRoute(nameof(NewMealLogPage), typeof(NewMealLogPage));
+            Routing.RegisterRoute(nameof(SearchMealLogPage), typeof(SearchMealLogPage));
             Routing.RegisterRoute(nameof(ActivityLogDetailPage), typeof(ActivityLogDetailPage));
             Routing.RegisterRoute(nameof(NewActivityLogPage), typeof(ActivityLogDetailPage));
         }

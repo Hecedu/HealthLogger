@@ -34,7 +34,8 @@ namespace HealthLogger.ViewModels
 
         public Command<MealLog> ViewMealLogCommand => new Command<MealLog>(async entry => await NavService.NavigateTo<MealLogDetailViewModel, MealLog>(entry));
         public Command<ActivityLog> ViewActivityLogCommand => new Command<ActivityLog>(async entry => await NavService.NavigateTo<ActivityLogDetailViewModel, ActivityLog>(entry));
-        public Command AddMealLogCommand => new Command(async () => await NavService.NavigateTo<NewMealLogViewModel>());
+        //public Command AddMealLogCommand => new Command(async () => await NavService.NavigateTo<NewMealLogViewModel>());
+        public Command AddMealLogCommand => new Command(async () => await NavService.NavigateTo<SearchMealLogViewModel>());
         public Command AddActivityLogCommand => new Command(async () => await NavService.NavigateTo<NewActivityLogViewModel>());
 
 

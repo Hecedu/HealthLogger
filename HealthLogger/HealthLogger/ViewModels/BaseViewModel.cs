@@ -15,10 +15,17 @@ namespace HealthLogger.ViewModels
         bool isBusy = false;
         protected INavService NavService { get; private set; }
         protected IDataStore<MealLog,ActivityLog> DataStore { get; private set; }
+        protected IFoodService FoodService { get; private set; }
         protected BaseViewModel(INavService navService, IDataStore<MealLog,ActivityLog> dataStore)
         {
             NavService = navService;
             DataStore = dataStore;
+        }
+        protected BaseViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore, IFoodService foodService)
+        {
+            NavService = navService;
+            DataStore = dataStore;
+            FoodService = foodService;
         }
         public bool IsBusy
         {
@@ -51,6 +58,7 @@ namespace HealthLogger.ViewModels
             changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+
         public virtual void Init()
         {
         }
@@ -62,11 +70,15 @@ namespace HealthLogger.ViewModels
            : base(navService, dataStore)
         {
         }
+        protected BaseViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore, IFoodService foodService)
+   : base(navService, dataStore, foodService)
+        {
+        }
 
 
         public override void Init()
         {
-            Init(default(TParameter));
+            Init(default);
         }
 
         public virtual void Init(TParameter parameter)

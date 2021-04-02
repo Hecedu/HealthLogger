@@ -33,18 +33,18 @@ namespace HealthLogger.Services
              where TVM : BaseViewModel
         {
             await NavigateToView(typeof(TVM));
-            if (XamarinFormsNav.NavigationStack.Last().BindingContext is BaseViewModel)
+            if (XamarinFormsNav.NavigationStack.Last().BindingContext is BaseViewModel model)
             {
-                ((BaseViewModel)XamarinFormsNav.NavigationStack.Last().BindingContext).Init();
+                model.Init();
             }
         }
         public async Task NavigateTo<TVM, TParameter>(TParameter parameter)
             where TVM : BaseViewModel
         {
             await NavigateToView(typeof(TVM));
-            if (XamarinFormsNav.NavigationStack.Last().BindingContext is BaseViewModel<TParameter>)
+            if (XamarinFormsNav.NavigationStack.Last().BindingContext is BaseViewModel<TParameter> model)
             {
-                ((BaseViewModel<TParameter>)XamarinFormsNav.NavigationStack.Last().BindingContext).Init(parameter);
+                model.Init(parameter);
             }
         }
         public void RemoveLastView()

@@ -29,6 +29,9 @@ namespace HealthLogger.ViewModels
         }
 
 
+        public Command SaveCommand { get; }
+        public Command CancelCommand { get; }
+
 
 
         private bool ValidateSave()
@@ -47,9 +50,6 @@ namespace HealthLogger.ViewModels
             get => calories;
             set => SetProperty(ref calories, value);
         }
-
-        public Command SaveCommand { get; }
-        public Command CancelCommand { get; }
 
         private async void OnCancel()
         {

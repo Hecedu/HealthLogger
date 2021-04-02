@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"    
+             xmlns:model="clr-namespace:HealthLogger.Models" 
+             xmlns:viewmodels="clr-namespace:HealthLogger.ViewModels"  
+             x:DataType="viewmodels:SearchMealLogViewModel"
+             ios:Page.UseSafeArea="true"
+             x:Class="HealthLogger.Views.SearchMealLogPage">
+    <ContentPage.Content>
+        <StackLayout Padding="10,0,10,0">
+
+            <SearchBar x:Name="searchBar" SearchCommand="{Binding PerformSearch}"
+                   SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"
+                       TextChanged="TextChangedHandler">
+            </SearchBar>
+            <ListView  ItemsSource="{Binding MyFoodList}"  x:Name="FoodListView" HasUnevenRows="true" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal">
+
+                                <StackLayout HorizontalOptions="StartAndExpand" x:DataType="model:hint">
+                                    <Label Text="{Binding food.label}"
+                                       FontAttributes="Bold" />
+                                </StackLayout>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>
