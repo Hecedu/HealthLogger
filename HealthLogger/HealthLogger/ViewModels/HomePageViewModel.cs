@@ -15,8 +15,27 @@ namespace HealthLogger.ViewModels
     {
         public ObservableCollection<MealLog> MealLogs { get;  }
         public ObservableCollection<ActivityLog> ActivityLogs { get; }
-        public int CalorieGoal { get; set; }
-        public int ActiveMinutesGoal { get; set; }
+        
+        public int calorieGoal { get; set; }
+        public int CalorieGoal { get => calorieGoal;
+            set
+            {
+                calorieGoal = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int activeMinutesGoal { get; set; }
+        public int ActiveMinutesGoal
+        {
+            get => activeMinutesGoal;
+            set
+            {
+                activeMinutesGoal = value;
+                OnPropertyChanged();
+            }
+        }
+
 #pragma warning disable IDE1006 // Naming Styles
         public int totalCalories { get; set; }
 #pragma warning restore IDE1006 // Naming Styles
@@ -59,6 +78,8 @@ namespace HealthLogger.ViewModels
             await LoadItems();
             TotalCalories = totalCalories;
             TotalActiveMinutes = totalActiveMinutes;
+            CalorieGoal = await DataStore.GetCalorieGoal(true);
+            ActiveMinutesGoal = await DataStore.GetActiveMinutesGoal(true);
         }
 
         async Task LoadItems()
@@ -70,6 +91,7 @@ namespace HealthLogger.ViewModels
                 MealLogs.Clear();
                 ActivityLogs.Clear();
                 totalCalories = 0;
+                totalActiveMinutes = 0;
                 var mealLogs = await DataStore.GetMealLogAsync(true);
                 foreach (var mealLog in mealLogs)
                 {
@@ -89,8 +111,7 @@ namespace HealthLogger.ViewModels
                         ActivityLogs.Add(activityLog);
                     }
                 }
-                CalorieGoal = await DataStore.GetCalorieGoal(true);
-                ActiveMinutesGoal = await DataStore.GetActiveMinutesGoal(true);
+
 
             }
             catch (Exception ex)

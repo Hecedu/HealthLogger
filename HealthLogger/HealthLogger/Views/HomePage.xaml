@@ -23,14 +23,14 @@
                 <Label Text="{Binding TotalCalories}" 
                             LineBreakMode="NoWrap" 
                             Style="{DynamicResource ListItemTextStyle}" 
-                            FontSize="50"
+                            FontSize="30"
                                FontAttributes="Bold"
                                TextColor="Black"
                             HorizontalOptions="CenterAndExpand"/>
                 <Label Text="{Binding CalorieGoal, StringFormat='{}Goal: {0}'}" 
                             LineBreakMode="NoWrap" 
                             Style="{DynamicResource ListItemTextStyle}" 
-                            FontSize="30"
+                            FontSize="10"
                                FontAttributes="Bold"
                                TextColor="Gray"
                             HorizontalOptions="CenterAndExpand"/>
@@ -38,14 +38,14 @@
                 <Label Text="{Binding TotalActiveMinutes}" 
                             LineBreakMode="NoWrap" 
                             Style="{DynamicResource ListItemTextStyle}" 
-                            FontSize="50"
+                            FontSize="30"
                                FontAttributes="Bold"
                                TextColor="Black"
                             HorizontalOptions="CenterAndExpand"/>
                 <Label Text="{Binding ActiveMinutesGoal, StringFormat='{}Goal: {0}'}" 
                             LineBreakMode="NoWrap" 
                             Style="{DynamicResource ListItemTextStyle}" 
-                            FontSize="30"
+                            FontSize="10"
                                FontAttributes="Bold"
                                TextColor="Gray"
                             HorizontalOptions="CenterAndExpand"/>
@@ -54,7 +54,7 @@
             <StackLayout>
                 <Label Text="Today's Meals:" FontSize="20" FontAttributes="Bold" Padding="10,0,10,0"  TextColor="Black" HorizontalOptions="StartAndExpand"/>
                 <CollectionView x:Name="MealListView"
-                HeightRequest="125"
+                HeightRequest="120"
                 SelectionMode="None"
                 ItemsSource="{Binding MealLogs}"
                 ItemsLayout="HorizontalList">
@@ -71,7 +71,7 @@
                             Grid.Row="1"
                             LineBreakMode="NoWrap" 
                             Style="{DynamicResource ListItemTextStyle}" 
-                            FontSize="25"
+                            FontSize="18"
                                FontAttributes="Bold"
                                TextColor="Black" />
                                     <Label Text="{Binding Date}" 
@@ -106,7 +106,7 @@
             <StackLayout>
                 <Label Text="Today's Activities:" FontSize="20" FontAttributes="Bold" Padding="10,10,10,0" TextColor="Black" HorizontalOptions="StartAndExpand"/>
                 <CollectionView x:Name="ActivityListView"
-                HeightRequest="135"
+                HeightRequest="125"
                 SelectionMode="None"
                 ItemsSource="{Binding ActivityLogs}"
                 ItemsLayout="HorizontalList">
@@ -124,7 +124,7 @@
                                     Grid.Row="1"
                                     LineBreakMode="NoWrap" 
                                     Style="{DynamicResource ListItemTextStyle}" 
-                                    FontSize="25"
+                                    FontSize="18"
                                        FontAttributes="Bold"
                                        TextColor="Black" 
                                  />

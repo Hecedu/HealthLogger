@@ -21,12 +21,14 @@ namespace HealthLogger.Services
                 new MealLog { Id = Guid.NewGuid().ToString(), Name = "Chicken", Date = DateTime.Now, Calories = 500},
                 new MealLog { Id = Guid.NewGuid().ToString(), Name = "Fried oysters", Date = DateTime.Now, Calories = 600},
                 new MealLog { Id = Guid.NewGuid().ToString(), Name = "Granola bar", Date = DateTime.Now, Calories = 200},
-                new MealLog { Id = Guid.NewGuid().ToString(), Name = "Pasta casserole", Date = DateTime.Now, Calories = 600}
+                new MealLog { Id = Guid.NewGuid().ToString(), Name = "Pasta casserole", Date = DateTime.Now, Calories = 600},
+                new MealLog { Id = Guid.NewGuid().ToString(), Name = "Yesterday's Pasta casserole", Date = new DateTime(2021,4,1), Calories = 600}
             };
             ActivityLogs = new List<ActivityLog>()
             {
                 new ActivityLog {Id = Guid.NewGuid().ToString(), Name = "Run", Date = DateTime.Now, ActiveMinutes = 10, CaloriesBurnt = 100},
-                new ActivityLog {Id = Guid.NewGuid().ToString(), Name = "Intense Cardio", Date = DateTime.Now, ActiveMinutes = 20, CaloriesBurnt = 350}
+                new ActivityLog {Id = Guid.NewGuid().ToString(), Name = "Intense Cardio", Date = DateTime.Now, ActiveMinutes = 20, CaloriesBurnt = 350},
+                new ActivityLog {Id = Guid.NewGuid().ToString(), Name = "Yesterdays Intense Cardio", Date = new DateTime(2021,4,1), ActiveMinutes = 20, CaloriesBurnt = 350}
             };
             CalorieGoal = 2500;
             ActiveMinuteGoal = 45;
