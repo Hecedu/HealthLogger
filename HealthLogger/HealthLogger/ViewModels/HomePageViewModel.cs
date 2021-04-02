@@ -13,24 +13,37 @@ namespace HealthLogger.ViewModels
 {
     public class HomePageViewModel : BaseViewModel
     {
-        private MealLog _selectedItem;
-
         public ObservableCollection<MealLog> MealLogs { get; }
-        public Command LoadItemsCommand { get; }
-        public Command AddItemCommand { get; }
-        public Command<MealLog> ItemTapped { get; }
-
-        public HomePageViewModel(INavService navService, IDataStore<MealLog> dataStore) : base(navService, dataStore)
+        public ObservableCollection<ActivityLog> ActivityLogs { get; }
+        public int totalCalories { get; set; }
+        public int TotalCalories
         {
-            MealLogs = new ObservableCollection<MealLog>();
+            get => totalCalories;
+            set
+            {
+                totalCalories = value;
+                OnPropertyChanged();
+            }
         }
 
-        public Command<MealLog> ViewCommand => new Command<MealLog>(async entry => await NavService.NavigateTo<HomePageViewModel, MealLog>(entry));
-        public Command AddCommand => new Command(async () => await NavService.NavigateTo<NewMealLogViewModel>());
+        public HomePageViewModel(INavService navService, IDataStore<MealLog,ActivityLog> dataStore) : base(navService, dataStore)
+        {
+            MealLogs = new ObservableCollection<MealLog>();
+            ActivityLogs = new ObservableCollection<ActivityLog>();
+        }
+
+        public Command<MealLog> ViewMealLogCommand => new Command<MealLog>(async entry => await NavService.NavigateTo<MealLogDetailViewModel, MealLog>(entry));
+        public Command<ActivityLog> ViewActivityLogCommand => new Command<ActivityLog>(async entry => await NavService.NavigateTo<ActivityLogDetailViewModel, ActivityLog>(entry));
+        public Command AddMealLogCommand => new Command(async () => await NavService.NavigateTo<NewMealLogViewModel>());
+        public Command AddActivityLogCommand => new Command(async () => await NavService.NavigateTo<NewActivityLogViewModel>());
+
+
         async public override void Init()
         {
             await LoadItems();
+            TotalCalories = totalCalories;
         }
+
         async Task LoadItems()
         {
             IsBusy = true;
@@ -38,10 +51,19 @@ namespace HealthLogger.ViewModels
             try
             {
                 MealLogs.Clear();
-                var items = await DataStore.GetItemsAsync(true);
-                foreach (var item in items)
+                ActivityLogs.Clear();
+                totalCalories = 0;
+                var mealLogs = await DataStore.GetMealLogAsync(true);
+                foreach (var mealLog in mealLogs)
                 {
-                    MealLogs.Add(item);
+                    totalCalories += mealLog.Calories;
+                    MealLogs.Add(mealLog);
+                }
+                var activityLogs = await DataStore.GetActivityLogAsync(true);
+                foreach (var activityLog in activityLogs)
+                {
+                    totalCalories -= activityLog.CaloriesBurnt;
+                    ActivityLogs.Add(activityLog);
                 }
             }
             catch (Exception ex)
@@ -53,10 +75,5 @@ namespace HealthLogger.ViewModels
                 IsBusy = false;
             }
         }
-        private async void OnAddItem(object obj)
-        {
-            await Shell.Current.GoToAsync(nameof(NewMealLogPage));
-        }
-
     }
 }

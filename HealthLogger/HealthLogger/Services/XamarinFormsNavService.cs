@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Xamarin.Essentials;
 using HealthLogger.ViewModels;
 using HealthLogger.Services;
 using Ninject;
@@ -72,8 +73,7 @@ namespace HealthLogger.Services
             {
                 throw new ArgumentException("Invalid URI");
             }
-            Device.OpenUri(uri);
-            
+            Launcher.OpenAsync(uri);
         }
         async Task NavigateToView(Type viewModelType)
         {

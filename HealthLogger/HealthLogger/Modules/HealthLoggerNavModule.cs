@@ -16,6 +16,8 @@ namespace HealthLogger.Modules
             navService.RegisterViewMapping(typeof(HomePageViewModel), typeof(HomePage));
             navService.RegisterViewMapping(typeof(MealLogDetailViewModel), typeof(MealLogDetailPage));
             navService.RegisterViewMapping(typeof(NewMealLogViewModel), typeof(NewMealLogPage));
+            navService.RegisterViewMapping(typeof(ActivityLogDetailViewModel), typeof(ActivityLogDetailPage));
+            navService.RegisterViewMapping(typeof(NewActivityLogViewModel), typeof(NewActivityLogPage));
 
             Bind<INavService>()
             .ToMethod(x => navService)

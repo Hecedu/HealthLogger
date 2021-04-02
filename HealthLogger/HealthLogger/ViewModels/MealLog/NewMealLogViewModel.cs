@@ -10,17 +10,16 @@ namespace HealthLogger.ViewModels
     public class NewMealLogViewModel : BaseViewModel
     {
         private string name;
-        private string date;
         private int calories;
 
-        public MealLog mealLog { get; set; }
+        public MealLog MealLog { get; set; }
 
 
         public override void Init()
         {
         }
 
-        public NewMealLogViewModel(INavService navService, IDataStore<MealLog> dataStore) : base(navService, dataStore)
+        public NewMealLogViewModel(INavService navService, IDataStore<MealLog,ActivityLog> dataStore) : base(navService, dataStore)
         {
 
             SaveCommand = new Command(OnSave, ValidateSave);
@@ -34,8 +33,7 @@ namespace HealthLogger.ViewModels
 
         private bool ValidateSave()
         {
-            return !String.IsNullOrWhiteSpace(name)
-                && !String.IsNullOrWhiteSpace(date);
+            return !String.IsNullOrWhiteSpace(name);
         }
 
         public string Name
@@ -44,19 +42,11 @@ namespace HealthLogger.ViewModels
             set => SetProperty(ref name, value);
         }
 
-        public string Date
-        {
-            get => date;
-            set => SetProperty(ref date, value);
-        }
-
         public int Calories
         {
             get => calories;
             set => SetProperty(ref calories, value);
         }
-
-
 
         public Command SaveCommand { get; }
         public Command CancelCommand { get; }
@@ -78,7 +68,7 @@ namespace HealthLogger.ViewModels
                 Calories = Calories,
             };
 
-            await DataStore.AddItemAsync(newItem);
+            await DataStore.AddMealLogAsync(newItem);
 
 
             // This will pop the current page off the navigation stack

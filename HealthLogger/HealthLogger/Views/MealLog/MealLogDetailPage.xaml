@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:viewmodels="clr-namespace:HealthLogger.ViewModels" x:DataType="viewmodels:MealLogDetailViewModel"
+             x:Class="HealthLogger.Views.MealLogDetailPage"
+             Title="Details">
+
+    <StackLayout Spacing="10" Padding="10">
+        <Label Text="{Binding MealLog.Name}" FontSize="Large" FontAttributes="Bold" TextColor="Black" />
+        <Label Text="{Binding MealLog.Date}" FontSize="Small" TextColor="Gray" />
+        <Label Text="{Binding MealLog.Calories}" FontSize="Medium" TextColor="Black" />
+
+
+
+        <StackLayout Orientation="Horizontal">
+            <Button x:Name="DeleteButton" Text="Delete" Command="{Binding DeleteCommand}" Clicked="Delete_Clicked" HorizontalOptions="FillAndExpand"></Button>
+        </StackLayout>
+
+    </StackLayout>
+
+</ContentPage>

@@ -6,7 +6,6 @@ using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using HealthLogger.Modules;
-using HealthLogger.Views;
 using Ninject.Modules;
 using Ninject;
 

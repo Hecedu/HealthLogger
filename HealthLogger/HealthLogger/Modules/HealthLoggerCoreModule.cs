@@ -13,8 +13,9 @@ namespace HealthLogger.Modules
         {
             // ViewModels [Make sure this matches with current views  Hector]
             Bind<MealLogDetailViewModel>().ToSelf();
+            Bind<ActivityLogDetailViewModel>().ToSelf();
             Bind<HomePageViewModel>().ToSelf();
-            Bind<IDataStore<MealLog>>().To<DataStore>().InSingletonScope();
+            Bind<IDataStore<MealLog,ActivityLog>>().To<DataStore>().InSingletonScope();
         }
     }
 }
