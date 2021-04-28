@@ -9,7 +9,7 @@ using Newtonsoft.Json.Linq;
 
 namespace HealthLogger.Services
 {
-    class FoodService : IFoodService
+    class FoodSearchService : IFoodSearchService
     {
         public async Task<FoodResult> GetFood(string searchQuery)
         {

@@ -7,9 +7,7 @@
              x:Name="BrowseItemsPage">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Search Meal" Command="{Binding SearchMealLogCommand}" />
-        <ToolbarItem Text="Log Meal" Command="{Binding AddMealLogCommand}" />
-        <ToolbarItem Text="Log Activity" Command="{Binding AddActivityLogCommand}" />
+        <ToolbarItem Text="Login" Command="{Binding SearchMealLogCommand}" />
     </ContentPage.ToolbarItems>
     <!--
       x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
@@ -17,40 +15,46 @@
     -->
     <ContentPage.Content>
         <StackLayout>
-            
-            <StackLayout Spacing="3" Padding="5" >
-                <Label Text="Calories:" FontSize="Medium" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
-                <Label Text="{Binding TotalCalories}" 
+            <Grid Padding="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackLayout Grid.Column="0">
+                    <Label Text="Calories:" FontSize="Medium" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
+                    <Label Text="{Binding TotalCalories}" 
                             LineBreakMode="NoWrap" 
                             Style="{DynamicResource ListItemTextStyle}" 
-                            FontSize="30"
+                            FontSize="50"
                                FontAttributes="Bold"
                                TextColor="Black"
                             HorizontalOptions="CenterAndExpand"/>
-                <Label Text="{Binding CalorieGoal, StringFormat='{}Goal: {0}'}" 
+                    <Label Text="{Binding CalorieGoal, StringFormat='{}Goal: {0}'}" 
                             LineBreakMode="NoWrap" 
                             Style="{DynamicResource ListItemTextStyle}" 
-                            FontSize="10"
+                            FontSize="Medium"
                                FontAttributes="Bold"
                                TextColor="Gray"
                             HorizontalOptions="CenterAndExpand"/>
-                <Label Text="Active Minutes:" FontSize="Medium" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
-                <Label Text="{Binding TotalActiveMinutes}" 
+                </StackLayout>
+                <StackLayout Grid.Column="1">
+                    <Label Text="Active Minutes:" FontSize="Medium" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
+                    <Label Text="{Binding TotalActiveMinutes}" 
                             LineBreakMode="NoWrap" 
                             Style="{DynamicResource ListItemTextStyle}" 
-                            FontSize="30"
+                            FontSize="50"
                                FontAttributes="Bold"
                                TextColor="Black"
                             HorizontalOptions="CenterAndExpand"/>
-                <Label Text="{Binding ActiveMinutesGoal, StringFormat='{}Goal: {0}'}" 
+                    <Label Text="{Binding ActiveMinutesGoal, StringFormat='{}Goal: {0}'}" 
                             LineBreakMode="NoWrap" 
                             Style="{DynamicResource ListItemTextStyle}" 
-                            FontSize="10"
+                            FontSize="Medium"
                                FontAttributes="Bold"
                                TextColor="Gray"
                             HorizontalOptions="CenterAndExpand"/>
-            </StackLayout>
-            
+                </StackLayout>
+            </Grid>
             <StackLayout>
                 <Label Text="Today's Meals:" FontSize="20" FontAttributes="Bold" Padding="10,0,10,0"  TextColor="Black" HorizontalOptions="StartAndExpand"/>
                 <CollectionView x:Name="MealListView"
@@ -99,7 +103,29 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-                <Button Text="View all Meal Logs" Command="{Binding ViewAllMealLogCommand}" HorizontalOptions="FillAndExpand"></Button>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button 
+                        Text="View all" Grid.Column="0"
+                        Command="{Binding ViewAllMealLogCommand}" 
+                        HorizontalOptions="Center">
+                    </Button>
+                    <Button 
+                        Text="Add meal" Grid.Column="1"
+                        Command="{Binding AddMealLogCommand}" 
+                        HorizontalOptions="Center">
+                    </Button>
+                    <Button 
+                        Text="Search meal" Grid.Column="2"
+                        Command="{Binding SearchMealLogCommand}" 
+                        HorizontalOptions="Center">
+                    </Button>
+                </Grid>
+
             </StackLayout>
             
 

@@ -15,13 +15,13 @@ namespace HealthLogger.ViewModels
         bool isBusy = false;
         protected INavService NavService { get; private set; }
         protected IDataStore<MealLog,ActivityLog> DataStore { get; private set; }
-        protected IFoodService FoodService { get; private set; }
+        protected IFoodSearchService FoodService { get; private set; }
         protected BaseViewModel(INavService navService, IDataStore<MealLog,ActivityLog> dataStore)
         {
             NavService = navService;
             DataStore = dataStore;
         }
-        protected BaseViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore, IFoodService foodService)
+        protected BaseViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore, IFoodSearchService foodService)
         {
             NavService = navService;
             DataStore = dataStore;
@@ -70,7 +70,7 @@ namespace HealthLogger.ViewModels
            : base(navService, dataStore)
         {
         }
-        protected BaseViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore, IFoodService foodService)
+        protected BaseViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore, IFoodSearchService foodService)
    : base(navService, dataStore, foodService)
         {
         }

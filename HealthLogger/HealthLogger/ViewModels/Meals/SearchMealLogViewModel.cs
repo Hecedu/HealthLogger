@@ -43,7 +43,7 @@ namespace HealthLogger.ViewModels
             OnPropertyChanged(nameof(FoodResult));
         });
         
-        public SearchMealLogViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore, IFoodService foodService) : base(navService, dataStore, foodService)
+        public SearchMealLogViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore, IFoodSearchService foodService) : base(navService, dataStore, foodService)
         {
             MyFoodList = new ObservableCollection<Hint>();
         }

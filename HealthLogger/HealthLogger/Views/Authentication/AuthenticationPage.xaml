@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthLogger.Views.AuthenticationPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Please login or register an account before accessing this service:"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+            <Button Text="Login" Command="{Binding LoginCommand}" HorizontalOptions="FillAndExpand"></Button>
+            <Button Text="Register" Command="{Binding RegisterCommand}" HorizontalOptions="FillAndExpand"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

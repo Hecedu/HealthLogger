@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HealthLogger.Services
 {
-    public interface IFoodService
+    public interface IFoodSearchService
     {
         Task<FoodResult> GetFood(string searchQuery);
     }

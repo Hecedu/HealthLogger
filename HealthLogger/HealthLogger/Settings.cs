@@ -20,5 +20,6 @@ namespace HealthLogger
                 return "33c31ea9beaaff6766273660d6b55b2f";
             }
         }
+        public static string JWDToken { get; set; }
     }
 }
