@@ -22,6 +22,9 @@ namespace HealthLogger
             Routing.RegisterRoute(nameof(ActivityLogDetailPage), typeof(ActivityLogDetailPage));
             Routing.RegisterRoute(nameof(NewActivityLogPage), typeof(NewActivityLogPage));
             Routing.RegisterRoute(nameof(ViewAllActivityLogPage), typeof(ViewAllActivityLogPage));
+            Routing.RegisterRoute(nameof(AuthenticationPage), typeof(AuthenticationPage));
+            Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
+            Routing.RegisterRoute(nameof(RegisterPage), typeof(RegisterPage));
         }
     }
 }

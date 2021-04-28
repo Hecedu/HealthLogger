@@ -7,7 +7,7 @@
              x:Name="BrowseItemsPage">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Login" Command="{Binding SearchMealLogCommand}" />
+        <ToolbarItem Text="Login" Command="{Binding AuthenticateCommand}" />
     </ContentPage.ToolbarItems>
     <!--
       x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
@@ -15,7 +15,7 @@
     -->
     <ContentPage.Content>
         <StackLayout>
-            <Grid Padding="2">
+            <Grid Padding="10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -36,6 +36,7 @@
                                FontAttributes="Bold"
                                TextColor="Gray"
                             HorizontalOptions="CenterAndExpand"/>
+                    <ProgressBar Progress="0.5" ProgressColor="ForestGreen"></ProgressBar>
                 </StackLayout>
                 <StackLayout Grid.Column="1">
                     <Label Text="Active Minutes:" FontSize="Medium" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
@@ -53,6 +54,7 @@
                                FontAttributes="Bold"
                                TextColor="Gray"
                             HorizontalOptions="CenterAndExpand"/>
+                    <ProgressBar Progress="0.5" ProgressColor="ForestGreen"></ProgressBar>
                 </StackLayout>
             </Grid>
             <StackLayout>
@@ -183,12 +185,29 @@
                                 CommandParameter="{Binding}">
                                         </TapGestureRecognizer>
                                     </StackLayout.GestureRecognizers>
+                                    
                                 </StackLayout>
                             </Grid>
+                            
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-                <Button Text="View all Activity Logs" Command="{Binding ViewAllActivityLogCommand}" HorizontalOptions="FillAndExpand"></Button>
+                <Grid Padding=" 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button 
+                        Text="View all" Grid.Column="0"
+                        Command="{Binding ViewAllMealLogCommand}" 
+                        HorizontalOptions="Center">
+                    </Button>
+                    <Button 
+                        Text="Add activity" Grid.Column="1"
+                        Command="{Binding AddMealLogCommand}" 
+                        HorizontalOptions="Center">
+                    </Button>
+                </Grid>
             </StackLayout>
             
            

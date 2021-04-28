@@ -4,9 +4,7 @@
              x:Class="HealthLogger.Views.AuthenticationPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Please login or register an account before accessing this service:"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Label Text="Please login or register an account before accessing this service:"  FontSize="Medium" TextColor="Black"></Label>
             <Button Text="Login" Command="{Binding LoginCommand}" HorizontalOptions="FillAndExpand"></Button>
             <Button Text="Register" Command="{Binding RegisterCommand}" HorizontalOptions="FillAndExpand"></Button>
         </StackLayout>

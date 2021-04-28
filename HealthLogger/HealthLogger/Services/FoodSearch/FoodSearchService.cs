@@ -18,6 +18,7 @@ namespace HealthLogger.Services
             var webclient = new WebClient();
             var json = await webclient.DownloadStringTaskAsync(url);
             return JsonConvert.DeserializeObject<FoodResult>(json);
+            
         }
         private string GetUrl(string searchQuery)
         {
