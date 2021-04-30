@@ -18,6 +18,7 @@ namespace HealthLogger.Modules
             Bind<IDataStore<MealLog,ActivityLog>>().To<DataStore>().InSingletonScope();
             Bind<IFoodSearchService>().To<FoodSearchService>().InSingletonScope();
             Bind<IAuthenticationService>().To<AuthenticationService>().InSingletonScope();
+            Bind<IAlertService>().To<AlertService>().InSingletonScope();
         }
     }
 }

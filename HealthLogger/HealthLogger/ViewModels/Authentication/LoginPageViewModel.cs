@@ -51,8 +51,16 @@ namespace HealthLogger.ViewModels
         {
 
 
-            await DataStore.AddMealLogAsync(newItem);
+            var result = await AuthenticationService.Login(Username,Password);
 
+            if (result.Status == "Success")
+            {
+                await NavService.GoBack();
+            } 
+            else
+            {
+
+            }
 
             // This will pop the current page off the navigation stack
 

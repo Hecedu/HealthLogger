@@ -17,6 +17,8 @@ namespace HealthLogger.ViewModels
         protected IDataStore<MealLog,ActivityLog> DataStore { get; private set; }
         protected IFoodSearchService FoodService { get; private set; }
         protected IAuthenticationService AuthenticationService { get; private set; }
+        protected IAlertService AlertService { get; private set; }
+
         protected BaseViewModel(INavService navService, IDataStore<MealLog,ActivityLog> dataStore)
         {
             NavService = navService;
@@ -33,6 +35,13 @@ namespace HealthLogger.ViewModels
             NavService = navService;
             DataStore = dataStore;
             AuthenticationService = authenticationService;
+        }
+        protected BaseViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore, IAuthenticationService authenticationService, IAlertService alertService)
+        {
+            NavService = navService;
+            DataStore = dataStore;
+            AuthenticationService = authenticationService;
+            AlertService = alertService;
         }
         public bool IsBusy
         {
@@ -77,15 +86,18 @@ namespace HealthLogger.ViewModels
             : base(navService, dataStore)
         {
         }
-        protected BaseViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore, IAuthenticationService authenticationService)
-            : base(navService, dataStore, authenticationService)
-        {
-        }
         protected BaseViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore, IFoodSearchService foodService)
             : base(navService, dataStore, foodService)
         {
         }
-
+        protected BaseViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore, IAuthenticationService authenticationService)
+            : base(navService, dataStore, authenticationService)
+        {
+        }
+        protected BaseViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore, IAuthenticationService authenticationService, IAlertService alertService)
+            : base(navService, dataStore, authenticationService, alertService)
+        {
+        }
 
         public override void Init()
         {

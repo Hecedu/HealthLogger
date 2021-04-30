@@ -14,6 +14,8 @@ namespace HealthLogger
     public partial class App : Application
     {
         public IKernel Kernel { get; set; }
+        public static bool IsActive { get; internal set; }
+
         public App(params INinjectModule[] platformModules)
         {
             InitializeComponent();

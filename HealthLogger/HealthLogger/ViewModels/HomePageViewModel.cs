@@ -36,9 +36,7 @@ namespace HealthLogger.ViewModels
             }
         }
 
-#pragma warning disable IDE1006 // Naming Styles
         public int totalCalories { get; set; }
-#pragma warning restore IDE1006 // Naming Styles
         public int TotalCalories
         {
             get => totalCalories;
