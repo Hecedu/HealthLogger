@@ -4,11 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HealthLogger.Models;
+using SQLite;
 
 namespace HealthLogger.Services
 {
     public class DataStore : IDataStore<MealLog,ActivityLog>
     {
+        static SQLiteAsyncConnection Database;
+
+        public static readonly GenericDatabase<MealLog> Instance = new GenericDatabase<MealLog>(async () =>
+        {
+            var instance = new MealLog();
+            await Database.CreateTableAsync<MealLog>();
+            await Database.CreateTableAsync<ActivityLog>();
+            return instance;
+        });
+
         readonly List<MealLog> MealLogs;
         readonly List<ActivityLog> ActivityLogs;
         readonly int CalorieGoal;
@@ -16,6 +27,7 @@ namespace HealthLogger.Services
 
         public DataStore()
         {
+            Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
             MealLogs = new List<MealLog>()
             {
                 new MealLog { Id = Guid.NewGuid().ToString(), Name = "Chicken", Date = DateTime.Now, Calories = 500},
@@ -36,7 +48,7 @@ namespace HealthLogger.Services
 
         public async Task<bool> AddMealLogAsync(MealLog mealLog)
         {
-            MealLogs.Insert(0, mealLog);
+            //await Database.UpdateAsync(mealLog);
 
             return await Task.FromResult(true);
         }

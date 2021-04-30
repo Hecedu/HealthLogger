@@ -54,6 +54,7 @@ namespace HealthLogger.ViewModels
             {
                 var result = await AuthenticationService.Login(Username, Password);
                 Settings.JWDToken = result.token;
+                Settings.UserId = result.id;
                 await NavService.GoBack();
             }
             catch (Exception ex)

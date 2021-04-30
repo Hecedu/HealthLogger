@@ -21,6 +21,7 @@ namespace HealthLogger
             }
         }
         public static string JWDToken { get; set; }
+        public static string UserId { get; set; }
         public static int CalorieGoal { get; set; }
         public static int ActiveMinutesGoal { get; set; }
     }
