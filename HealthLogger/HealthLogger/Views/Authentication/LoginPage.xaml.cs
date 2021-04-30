@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthLogger.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace HealthLogger.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
+        LoginPageViewModel ViewModel => BindingContext as LoginPageViewModel;
         public LoginPage()
         {
             InitializeComponent();

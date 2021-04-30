@@ -12,7 +12,7 @@ namespace HealthLogger.Services
 
     class AuthenticationService : IAuthenticationService
     {
-        public async Task<AuthenticationResult> Login(string username, string password)
+        public async Task<LoginResult> Login(string username, string password)
         {
             LoginModel login = new LoginModel()
             {
@@ -22,15 +22,18 @@ namespace HealthLogger.Services
             string json = JsonConvert.SerializeObject(login);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             var httpClient = new HttpClient();
-            HttpResponseMessage ResponseMessage = await httpClient.PostAsync("https://healthtrackerapi20210423160155.azurewebsites.net/api/Authentication/Login", content);
+            HttpResponseMessage ResponseMessage = await httpClient.PostAsync("https://healthtrackerapi20210423160155.azurewebsites.net/api/Authentication/Login/", content);
             if (ResponseMessage.StatusCode == HttpStatusCode.OK)
             {
-                return JsonConvert.DeserializeObject<AuthenticationResult>(await ResponseMessage.Content.ReadAsStringAsync());
+                return JsonConvert.DeserializeObject<LoginResult>(await ResponseMessage.Content.ReadAsStringAsync());
             }
-            return new AuthenticationResult { Status = "Error", Message = "Bad HTTP Response" };
+            else
+            {
+                throw new Exception("HTTP Response error. Please check credentials.");
+            }
         }
 
-        public async Task<AuthenticationResult> Register(string username, string email, string password)
+        public async Task<RegisterResult> Register(string username, string email, string password)
         {
             RegisterModel register = new RegisterModel()
             {
@@ -41,15 +44,15 @@ namespace HealthLogger.Services
             string json = JsonConvert.SerializeObject(register);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             var httpClient = new HttpClient();
-            HttpResponseMessage ResponseMessage = await httpClient.PostAsync("https://healthtrackerapi20210423160155.azurewebsites.net/api/Authentication/Register", content);
+            HttpResponseMessage ResponseMessage = await httpClient.PostAsync("https://healthtrackerapi20210423160155.azurewebsites.net/api/Authentication/Register/", content);
             if (ResponseMessage.StatusCode == HttpStatusCode.OK)
             {
-                return JsonConvert.DeserializeObject<AuthenticationResult>(await ResponseMessage.Content.ReadAsStringAsync());
+                return JsonConvert.DeserializeObject<RegisterResult>(await ResponseMessage.Content.ReadAsStringAsync());
             }
-            return new AuthenticationResult { Status = "Error", Message = "Bad HTTP Response" };
+            return new RegisterResult { status = "Error", message = "Bad HTTP Response" };
         }
 
-        public Task<AuthenticationResult> RegisterAdmin(string username, string email, string password)
+        public Task<RegisterResult> RegisterAdmin(string username, string email, string password)
         {
 
             var webclient = new WebClient();

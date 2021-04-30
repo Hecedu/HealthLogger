@@ -5,11 +5,11 @@
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Username:" FontSize="Medium" TextColor="Black" />
-            <Entry Text="{Binding Name, Mode=TwoWay}" FontSize="Medium" />
+            <Entry Text="{Binding Username, Mode=TwoWay}" FontSize="Medium" />
             <Label Text="Email:" FontSize="Medium" TextColor="Black" />
-            <Editor Text="{Binding Calories, Mode=TwoWay}" AutoSize="TextChanges" FontSize="Medium" Margin="0" Keyboard="Numeric"/>
+            <Entry Text="{Binding Email, Mode=TwoWay}" FontSize="Medium" Margin="0"/>
             <Label Text="Password:" FontSize="Medium" TextColor="Black" />
-            <Editor Text="{Binding Calories, Mode=TwoWay}" AutoSize="TextChanges" FontSize="Medium" Margin="0" Keyboard="Numeric"/>
+            <Entry Text="{Binding Password, Mode=TwoWay}" FontSize="Medium" Margin="0" IsPassword="True"/>
 
 
             <StackLayout Orientation="Horizontal">

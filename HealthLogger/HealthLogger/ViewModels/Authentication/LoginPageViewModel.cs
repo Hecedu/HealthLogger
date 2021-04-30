@@ -24,7 +24,8 @@ namespace HealthLogger.ViewModels
             set => SetProperty(ref password, value);
         }
 
-        public LoginPageViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore) : base(navService, dataStore)
+        public LoginPageViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore, IAuthenticationService authenticationService, IAlertService alertService) 
+            : base(navService, dataStore,authenticationService,alertService)
         {
 
             SaveCommand = new Command(OnSave, ValidateSave);
@@ -49,22 +50,16 @@ namespace HealthLogger.ViewModels
 
         private async void OnSave()
         {
-
-
-            var result = await AuthenticationService.Login(Username,Password);
-
-            if (result.Status == "Success")
+            try
             {
+                var result = await AuthenticationService.Login(Username, Password);
+                Settings.JWDToken = result.token;
                 await NavService.GoBack();
-            } 
-            else
-            {
-
             }
-
-            // This will pop the current page off the navigation stack
-
-            await NavService.GoBack();
+            catch (Exception ex)
+            {
+                await AlertService.ShowErrorAsync(ex.Message, "Error", "ok");
+            }
         }
     }
 }
