@@ -30,7 +30,7 @@ namespace HealthLogger.ViewModels
             try
             {
                 ActivityLogs.Clear();
-                var activityLogs = await DataStore.GetActivityLogAsync(true);
+                var activityLogs = await DataStore.GetAllActivityLogsAsync(true);
                 foreach (var activityLog in activityLogs)
                 {
                     ActivityLogs.Add(activityLog);

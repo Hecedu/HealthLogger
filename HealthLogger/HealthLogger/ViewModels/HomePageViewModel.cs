@@ -57,7 +57,7 @@ namespace HealthLogger.ViewModels
             }
         }
 
-        public HomePageViewModel(INavService navService, IDataStore<MealLog,ActivityLog> dataStore) : base(navService, dataStore)
+        public HomePageViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore) : base(navService, dataStore)
         {
             MealLogs = new ObservableCollection<MealLog>();
             ActivityLogs = new ObservableCollection<ActivityLog>();
@@ -91,7 +91,7 @@ namespace HealthLogger.ViewModels
                 ActivityLogs.Clear();
                 totalCalories = 0;
                 totalActiveMinutes = 0;
-                var mealLogs = await DataStore.GetMealLogAsync(true);
+                var mealLogs = await DataStore.GetAllMealLogsAsync(true);
                 foreach (var mealLog in mealLogs)
                 {
                     if (mealLog.Date.Date == DateTime.Today.Date)
@@ -100,7 +100,7 @@ namespace HealthLogger.ViewModels
                         MealLogs.Add(mealLog);
                     }
                 }
-                var activityLogs = await DataStore.GetActivityLogAsync(true);
+                var activityLogs = await DataStore.GetAllActivityLogsAsync(true);
                 foreach (var activityLog in activityLogs)
                 {
                     if (activityLog.Date.Date == DateTime.Today.Date)

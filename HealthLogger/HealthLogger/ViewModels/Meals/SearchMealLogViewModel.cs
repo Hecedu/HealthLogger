@@ -52,13 +52,12 @@ namespace HealthLogger.ViewModels
         {
             MealLog newItem = new MealLog()
             {
-                Id = Guid.NewGuid().ToString(),
                 Calories = Convert.ToInt32(entry.Food.Nutrients.ENERC_KCAL),
                 Date = DateTime.Now,
                 Name = entry.Food.Label
             };
 
-            await DataStore.AddMealLogAsync(newItem);
+            await DataStore.SaveMealLogAsync(newItem);
 
 
             // This will pop the current page off the navigation stack

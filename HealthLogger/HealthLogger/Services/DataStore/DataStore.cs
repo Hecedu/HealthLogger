@@ -12,115 +12,144 @@ namespace HealthLogger.Services
     {
         static SQLiteAsyncConnection Database;
 
-        public static readonly GenericDatabase<MealLog> Instance = new GenericDatabase<MealLog>(async () =>
-        {
-            var instance = new MealLog();
-            await Database.CreateTableAsync<MealLog>();
-            await Database.CreateTableAsync<ActivityLog>();
-            return instance;
-        });
-
-        readonly List<MealLog> MealLogs;
-        readonly List<ActivityLog> ActivityLogs;
         readonly int CalorieGoal;
         readonly int ActiveMinuteGoal;
 
         public DataStore()
         {
             Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
-            MealLogs = new List<MealLog>()
-            {
-                new MealLog { Id = Guid.NewGuid().ToString(), Name = "Chicken", Date = DateTime.Now, Calories = 500},
-                new MealLog { Id = Guid.NewGuid().ToString(), Name = "Fried oysters", Date = DateTime.Now, Calories = 600},
-                new MealLog { Id = Guid.NewGuid().ToString(), Name = "Granola bar", Date = DateTime.Now, Calories = 200},
-                new MealLog { Id = Guid.NewGuid().ToString(), Name = "Pasta casserole", Date = DateTime.Now, Calories = 600},
-                new MealLog { Id = Guid.NewGuid().ToString(), Name = "Yesterday's Pasta casserole", Date = new DateTime(2021,4,1), Calories = 600}
-            };
-            ActivityLogs = new List<ActivityLog>()
-            {
-                new ActivityLog {Id = Guid.NewGuid().ToString(), Name = "Run", Date = DateTime.Now, ActiveMinutes = 10, CaloriesBurnt = 100},
-                new ActivityLog {Id = Guid.NewGuid().ToString(), Name = "Intense Cardio", Date = DateTime.Now, ActiveMinutes = 20, CaloriesBurnt = 350},
-                new ActivityLog {Id = Guid.NewGuid().ToString(), Name = "Yesterdays Intense Cardio", Date = new DateTime(2021,4,1), ActiveMinutes = 20, CaloriesBurnt = 350}
-            };
+            Database.CreateTableAsync<MealLog>().Wait();
+            Database.CreateTableAsync<ActivityLog>().Wait();
             CalorieGoal = 2500;
             ActiveMinuteGoal = 45;
         }
 
-        public async Task<bool> AddMealLogAsync(MealLog mealLog)
+        public async Task<int> SaveMealLogAsync(MealLog mealLog)
         {
-            //await Database.UpdateAsync(mealLog);
-
-            return await Task.FromResult(true);
+            if (mealLog.ID != 0)
+            {
+                // Update an existing note.
+                return await Database.UpdateAsync(mealLog);
+            }
+            else
+            {
+                // Save a new note.
+                return await Database.InsertAsync(mealLog);
+            }
         }
-
-        public async Task<bool> UpdateMealLogAsync(MealLog mealLog)
+        public async Task<int> SaveMealLogsAsync(List<MealLog> mealLogs)
         {
-            var oldMealLog = MealLogs.Where((MealLog arg) => arg.Id == mealLog.Id).FirstOrDefault();
-            MealLogs.Remove(oldMealLog);
-            MealLogs.Add(mealLog);
-
-            return await Task.FromResult(true);
+           int rowsChanged = 0;
+           foreach(MealLog mealLog in mealLogs)
+            {
+                if (mealLog.ID != 0)
+                {
+                    // Update an existing note.
+                    rowsChanged += await Database.UpdateAsync(mealLog);
+                }
+                else
+                {
+                    // Save a new note.
+                    rowsChanged += await Database.InsertAsync(mealLog);
+                }
+            }
+            return rowsChanged;
         }
-
-        public async Task<bool> DeleteMealLogAsync(string id)
+        public async Task<int> DeleteMealLogAsync(MealLog mealLog)
         {
-            var oldMealLog = MealLogs.Where((MealLog arg) => arg.Id == id).FirstOrDefault();
-            MealLogs.Remove(oldMealLog);
-
-            return await Task.FromResult(true);
+            return await Database.DeleteAsync(mealLog);
         }
-
-        public async Task<MealLog> GetMealLogAsync(string id)
+        public async Task<int> DeleteAllMealLogsAsync(bool forceRefresh = false)
         {
-            return await Task.FromResult(MealLogs.FirstOrDefault(s => s.Id == id));
+            return await Database.DeleteAllAsync<MealLog>();
         }
-
-        public async Task<IEnumerable<MealLog>> GetMealLogAsync(bool forceRefresh = false)
+        public async Task<MealLog> GetMealLogAsync(int id)
         {
-            return await Task.FromResult(MealLogs);
+            return await Database.Table<MealLog>()
+                .Where(i => i.ID == id)
+                .FirstOrDefaultAsync();
         }
-
-        public async Task<bool> AddActivityLogAsync(ActivityLog activityLog)
+        public async Task<List<MealLog>> GetAllMealLogsAsync(bool forceRefresh = false)
         {
-            ActivityLogs.Add(activityLog);
-            return await Task.FromResult(true);
+            return await Database.Table<MealLog>().ToListAsync();
         }
-
-        public async Task<bool> UpdateActivityLogAsync(ActivityLog activityLog)
+        
+        public async Task<int> SaveActivityLogAsync(ActivityLog activityLog)
         {
-            var oldActivityLog = ActivityLogs.Where((ActivityLog arg) => arg.Id == activityLog.Id).FirstOrDefault();
-            ActivityLogs.Remove(activityLog);
-            ActivityLogs.Add(activityLog);
-
-            return await Task.FromResult(true);
+            if (activityLog.ID != 0)
+            {
+                // Update an existing note.
+                return await Database.UpdateAsync(activityLog);
+            }
+            else
+            {
+                // Save a new note.
+                return await Database.InsertAsync(activityLog);
+            }
         }
-
-        public async Task<bool> DeleteActivityLogAsync(string id)
+        public async Task<int> SaveActivityLogsAsync(List<ActivityLog> activityLogs)
         {
-            var oldActivityLog = ActivityLogs.Where((ActivityLog arg) => arg.Id == id).FirstOrDefault();
-            ActivityLogs.Remove(oldActivityLog);
-
-            return await Task.FromResult(true);
+            int rowsChanged = 0;
+            foreach (ActivityLog activityLog in activityLogs)
+            {
+                if (activityLog.ID != 0)
+                {
+                    // Update an existing note.
+                    rowsChanged += await Database.UpdateAsync(activityLog);
+                }
+                else
+                {
+                    // Save a new note.
+                    rowsChanged += await Database.InsertAsync(activityLog);
+                }
+            }
+            return rowsChanged;
         }
-
-        public async Task<ActivityLog> GetActivityLogAsync(string id)
+        public async Task<int> DeleteActivityLogAsync(ActivityLog activityLog)
         {
-            return await Task.FromResult(ActivityLogs.FirstOrDefault(s => s.Id == id));
+            return await Database.DeleteAsync(activityLog);
         }
-
-        public async Task<IEnumerable<ActivityLog>> GetActivityLogAsync(bool forceRefresh = false)
+        public async Task<int> DeleteAllActivityLogAsync(bool forceRefresh = false)
         {
-            return await Task.FromResult(ActivityLogs);
+            return await Database.DeleteAllAsync<ActivityLog>();
+        }
+        public async Task<ActivityLog> GetActivityLogAsync(int id)
+        {
+            return await Database.Table<ActivityLog>()
+                 .Where(i => i.ID == id)
+                 .FirstOrDefaultAsync();
+        }
+        public async Task<List<ActivityLog>> GetAllActivityLogsAsync(bool forceRefresh = false)
+        {
+            return await Database.Table<ActivityLog>().ToListAsync();
         }
 
         public async Task<int> GetCalorieGoal(bool forceRefresh = false)
         {
             return await Task.FromResult(CalorieGoal);
         }
-
         public async Task<int> GetActiveMinutesGoal(bool forceRefresh = false)
         {
             return await Task.FromResult(ActiveMinuteGoal);
         }
+
+        public async Task<bool> ChangeLogsUserIdAsync(string id)
+        {
+            foreach (MealLog mealLog in await GetAllMealLogsAsync())
+            {
+                mealLog.UserId = id;
+                await SaveMealLogAsync(mealLog);
+            }
+            foreach (ActivityLog activityLog in await GetAllActivityLogsAsync())
+            {
+                activityLog.UserId = id;
+                await SaveActivityLogAsync(activityLog);
+            }
+            return true;
+        }
+
+
+
+
     }
 }

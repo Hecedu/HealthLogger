@@ -14,12 +14,12 @@ namespace HealthLogger.ViewModels
 
         bool isBusy = false;
         protected INavService NavService { get; private set; }
-        protected IDataStore<MealLog,ActivityLog> DataStore { get; private set; }
+        protected IDataStore<MealLog, ActivityLog> DataStore { get; private set; }
         protected IFoodSearchService FoodService { get; private set; }
         protected IAuthenticationService AuthenticationService { get; private set; }
         protected IAlertService AlertService { get; private set; }
 
-        protected BaseViewModel(INavService navService, IDataStore<MealLog,ActivityLog> dataStore)
+        protected BaseViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore)
         {
             NavService = navService;
             DataStore = dataStore;
@@ -82,7 +82,7 @@ namespace HealthLogger.ViewModels
     //
     public class BaseViewModel<TParameter> : BaseViewModel
     {
-        protected BaseViewModel(INavService navService, IDataStore<MealLog,ActivityLog> dataStore)
+        protected BaseViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore)
             : base(navService, dataStore)
         {
         }

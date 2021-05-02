@@ -68,14 +68,13 @@ namespace HealthLogger.ViewModels
         {
             ActivityLog newItem = new ActivityLog()
             {
-                Id = Guid.NewGuid().ToString(),
                 Name = Name,
                 Date = DateTime.Now,
                 ActiveMinutes = ActiveMinutes,
                 CaloriesBurnt = CaloriesBurnt
             };
 
-            await DataStore.AddActivityLogAsync(newItem);
+            await DataStore.SaveActivityLogAsync(newItem);
 
             // This will pop the current page off the navigation stack
 

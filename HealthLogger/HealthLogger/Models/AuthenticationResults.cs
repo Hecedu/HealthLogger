@@ -4,7 +4,6 @@ using System.Text;
 
 namespace HealthLogger.Models
 {
-
     public class RegisterResult
     {
         public string status { get; set; }
@@ -15,6 +14,5 @@ namespace HealthLogger.Models
         public string token { get; set; }
         public DateTime validTo { get; set; }
         public string id { get; set; }
-    }
-        
+    }       
 }

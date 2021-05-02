@@ -30,14 +30,14 @@ namespace HealthLogger.ViewModels
         public override void Init(ActivityLog parameter)
         {
             ActivityLog = parameter;
-        }
+        } 
 
         public Command DeleteCommand { get; }
 
         private async void OnDelete()
         {
 
-            await DataStore.DeleteActivityLogAsync(ActivityLog.Id);
+            await DataStore.DeleteActivityLogAsync(ActivityLog);
             // This will pop the current page off the navigation stack
             await NavService.GoBack();
         }

@@ -199,12 +199,12 @@
                     </Grid.ColumnDefinitions>
                     <Button 
                         Text="View all" Grid.Column="0"
-                        Command="{Binding ViewAllMealLogCommand}" 
+                        Command="{Binding ViewAllActivityLogCommand}" 
                         HorizontalOptions="Center">
                     </Button>
                     <Button 
                         Text="Add activity" Grid.Column="1"
-                        Command="{Binding AddMealLogCommand}" 
+                        Command="{Binding AddActivityLogCommand}" 
                         HorizontalOptions="Center">
                     </Button>
                 </Grid>

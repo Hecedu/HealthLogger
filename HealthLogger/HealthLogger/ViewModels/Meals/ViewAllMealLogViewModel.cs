@@ -29,7 +29,7 @@ namespace HealthLogger.ViewModels
             try
             {
                 MealLogs.Clear();
-                var mealLogs = await DataStore.GetMealLogAsync(true);
+                var mealLogs = await DataStore.GetAllMealLogsAsync(true);
                 foreach (var mealLog in mealLogs)
                 {
                     MealLogs.Add(mealLog);
