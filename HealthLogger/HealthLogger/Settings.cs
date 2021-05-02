@@ -31,5 +31,6 @@ namespace HealthLogger
         public static string UserId { get; set; }
         public static int CalorieGoal { get; set; }
         public static int ActiveMinutesGoal { get; set; }
+        public static bool Logged { get; set; }
     }
 }

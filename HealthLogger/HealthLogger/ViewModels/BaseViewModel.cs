@@ -25,6 +25,12 @@ namespace HealthLogger.ViewModels
             NavService = navService;
             DataStore = dataStore;
         }
+        protected BaseViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore, IAlertService alertService)
+        {
+            NavService = navService;
+            DataStore = dataStore;
+            AlertService = alertService;
+        }
         protected BaseViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore, IFoodSearchService foodService)
         {
             NavService = navService;
@@ -92,6 +98,10 @@ namespace HealthLogger.ViewModels
     {
         protected BaseViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore)
             : base(navService, dataStore)
+        {
+        }
+        protected BaseViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore, IAlertService alertService)
+     : base(navService, dataStore, alertService)
         {
         }
         protected BaseViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore, IFoodSearchService foodService)

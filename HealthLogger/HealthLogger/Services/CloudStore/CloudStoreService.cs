@@ -185,6 +185,7 @@ namespace HealthLogger.Services
                         UserId = activityLog.UserId,
                         Name = activityLog.Name,
                         CaloriesBurnt = activityLog.CaloriesBurnt,
+                        ActiveMinutes = activityLog.ActiveMinutes,
                         Date = activityLog.Date
                     });
                 }

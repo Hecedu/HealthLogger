@@ -91,8 +91,9 @@ namespace HealthLogger.ViewModels
             }
         }
 
-        public HomePageViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore) : base(navService, dataStore)
+        public HomePageViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore, IAlertService alertService) : base(navService, dataStore, alertService)
         {
+            CloudCommand = new Command(OnCloud);
             MealLogs = new ObservableCollection<MealLog>();
             ActivityLogs = new ObservableCollection<ActivityLog>();
         }
@@ -105,7 +106,19 @@ namespace HealthLogger.ViewModels
         public Command ViewAllMealLogCommand => new Command(async () => await NavService.NavigateTo<ViewAllMealLogViewModel>());
         public Command AddActivityLogCommand => new Command(async () => await NavService.NavigateTo<NewActivityLogViewModel>());
         public Command ViewAllActivityLogCommand => new Command(async () => await NavService.NavigateTo<ViewAllActivityLogViewModel>());
+        public Command CloudCommand { get; set; }
 
+        private async void OnCloud()
+        {
+            if (Settings.Logged == true)
+            {
+                await NavService.NavigateTo<CloudStorageViewModel>();
+            }
+            else
+            {
+                await AlertService.ShowErrorAsync("Please authenticate yourself before using cloud services.", "Authentication error.", "ok");
+            }
+        }
         async public override void Init()
         {
             await LoadItems();
