@@ -9,7 +9,7 @@ namespace HealthLogger.Services
     public interface IAuthenticationService
     {
         Task<LoginResult> Login(string username, string password);
-        Task<RegisterResult> Register(string username, string email, string password);
-        Task<RegisterResult> RegisterAdmin(string username, string email, string password);
+        Task<CloudResult> Register(string username, string email, string password);
+        Task<CloudResult> RegisterAdmin(string username, string email, string password);
     }
 }

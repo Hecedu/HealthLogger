@@ -1,5 +1,6 @@
 ﻿using HealthLogger.Models;
 using Newtonsoft.Json;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -12,6 +13,14 @@ namespace HealthLogger.Services
 
     class AuthenticationService : IAuthenticationService
     {
+        static SQLiteAsyncConnection Database;
+
+        public AuthenticationService()
+        {
+            Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
+            Database.CreateTableAsync<MealLog>().Wait();
+            Database.CreateTableAsync<ActivityLog>().Wait();
+        }
         public async Task<LoginResult> Login(string username, string password)
         {
             LoginModel login = new LoginModel()
@@ -22,17 +31,20 @@ namespace HealthLogger.Services
             string json = JsonConvert.SerializeObject(login);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             var httpClient = new HttpClient();
-            HttpResponseMessage ResponseMessage = await httpClient.PostAsync("https://healthtrackerapi20210423160155.azurewebsites.net/api/Authentication/Login/", content);
+            HttpResponseMessage ResponseMessage = await httpClient.PostAsync($"{Settings.HealthTrackerApiUri}/api/Authentication/Login/", content);
             if (ResponseMessage.StatusCode == HttpStatusCode.OK)
             {
-                return JsonConvert.DeserializeObject<LoginResult>(await ResponseMessage.Content.ReadAsStringAsync());
+                LoginResult result = JsonConvert.DeserializeObject<LoginResult>(await ResponseMessage.Content.ReadAsStringAsync());
+                await UpdateMealLogCredentials(result.id);
+                await UpdateActivityLogCredentials(result.id);
+                return result;
             }
             else
             {
                 throw new Exception("HTTP Response error. Please check credentials.");
             }
         }
-        public async Task<RegisterResult> Register(string username, string email, string password)
+        public async Task<CloudResult> Register(string username, string email, string password)
         {
             RegisterModel register = new RegisterModel()
             {
@@ -43,18 +55,35 @@ namespace HealthLogger.Services
             string json = JsonConvert.SerializeObject(register);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             var httpClient = new HttpClient();
-            HttpResponseMessage ResponseMessage = await httpClient.PostAsync("https://healthtrackerapi20210423160155.azurewebsites.net/api/Authentication/Register/", content);
+            HttpResponseMessage ResponseMessage = await httpClient.PostAsync($"{Settings.HealthTrackerApiUri}/api/Authentication/Register/", content);
             if (ResponseMessage.StatusCode == HttpStatusCode.OK)
             {
-                return JsonConvert.DeserializeObject<RegisterResult>(await ResponseMessage.Content.ReadAsStringAsync());
+                return JsonConvert.DeserializeObject<CloudResult>(await ResponseMessage.Content.ReadAsStringAsync());
             }
-            return new RegisterResult { status = "Error", message = "Bad HTTP Response" };
+            return new CloudResult { status = "Error", message = "Bad HTTP Response" };
         }
-        public Task<RegisterResult> RegisterAdmin(string username, string email, string password)
+        public Task<CloudResult> RegisterAdmin(string username, string email, string password)
         {
 
             var webclient = new WebClient();
             throw new NotImplementedException();
+        }
+
+        private async Task UpdateMealLogCredentials (string userID)
+        {
+            foreach (MealLog mealLog in await Database.Table<MealLog>().ToListAsync())
+            {
+                mealLog.UserId = userID;
+                await Database.UpdateAsync(mealLog);
+            }
+        }
+        private async Task UpdateActivityLogCredentials(string userID)
+        {
+            foreach (ActivityLog activityLog in await Database.Table<ActivityLog>().ToListAsync())
+            {
+                activityLog.UserId = userID;
+                await Database.UpdateAsync(activityLog);
+            }
         }
     }
 }

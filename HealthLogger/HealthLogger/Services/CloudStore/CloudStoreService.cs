@@ -53,12 +53,12 @@ namespace HealthLogger.Services
         private async Task DeleteCloudUserLogs()
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Settings.JWDToken);
-            var url = "https://healthtrackerapi20210423160155.azurewebsites.net/api/HealthTracker/DeleteUserLogs";
-            var content = new StringContent(String.Format("userId={0}", Settings.UserId), Encoding.UTF8, "application/json");
-            var ResponseMessage = await httpClient.PostAsync(url, content);
+            var url = $"{Settings.HealthTrackerApiUri}/api/HealthTracker/DeleteUserLogs?userId={Settings.UserId}";
+
+            var ResponseMessage = await httpClient.PostAsync(url, null);
             if (ResponseMessage.StatusCode != HttpStatusCode.OK)
             {
-                throw new Exception($"HTTP Response error: {ResponseMessage.StatusCode}. Please check credentials.");
+                throw new Exception($"HTTP Response error: {ResponseMessage.StatusCode}. While uploading meal logs to cloud");
             }
         }
         private async Task DeleteLocalLogs()
@@ -70,35 +70,64 @@ namespace HealthLogger.Services
         private async Task UploadMealLogs()
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Settings.JWDToken);
-            var url = "https://healthtrackerapi20210423160155.azurewebsites.net/api/HealthTracker/AddMealLogs";
-            var MealLogs = await Database.Table<MealLog>().ToListAsync();
-            string json = JsonConvert.SerializeObject(MealLogs);
+            var url = $"{Settings.HealthTrackerApiUri}/api/HealthTracker/AddMealLogs";
+            List<MealLogPacket> mealLogPackets = new List<MealLogPacket>();
+            foreach(MealLog mealLog in await Database.Table<MealLog>().ToListAsync())
+            {
+                mealLogPackets.Add(new MealLogPacket
+                {
+                    UserId = mealLog.UserId,
+                    Name = mealLog.Name,
+                    Calories = mealLog.Calories,
+                    Date = mealLog.Date
+                });
+            }
+            string json = JsonConvert.SerializeObject(mealLogPackets);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             var ResponseMessage = await httpClient.PostAsync(url, content);
+            
             if (ResponseMessage.StatusCode != HttpStatusCode.OK)
             {
-                throw new Exception($"HTTP Response error: {ResponseMessage.StatusCode}. Please check credentials.");
+                throw new Exception($"HTTP Response error: {ResponseMessage.StatusCode}. While uploading meal logs to cloud");
             }
         }
-        private async Task<List<MealLog>> DownloadMealLogs()
+        private async Task<List<MealLogPacket>> DownloadMealLogs()
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Settings.JWDToken);
-            var url = "https://healthtrackerapi20210423160155.azurewebsites.net/api/HealthTracker/GetUserMealLogs";
-            var content = new StringContent(String.Format("userId={0}", Settings.UserId), Encoding.UTF8, "application/json");
-            var ResponseMessage = await httpClient.PostAsync(url, content);
+            var url = $"{Settings.HealthTrackerApiUri}/api/HealthTracker/GetUserMealLogs?userId={Settings.UserId}";
+            var ResponseMessage = await httpClient.PostAsync(url, null);
             if (ResponseMessage.StatusCode == HttpStatusCode.OK)
             {
-                return JsonConvert.DeserializeObject<List<MealLog>>(await ResponseMessage.Content.ReadAsStringAsync());
+                List<MealLogPacket> mealLogPackets = new List<MealLogPacket>();
+                foreach (MealLog mealLog in JsonConvert.DeserializeObject<List<MealLog>>(await ResponseMessage.Content.ReadAsStringAsync()))
+                {
+                    mealLogPackets.Add(new MealLogPacket
+                    {
+                        UserId = mealLog.UserId,
+                        Name = mealLog.Name,
+                        Calories = mealLog.Calories,
+                        Date = mealLog.Date
+                    });
+                }
+                return mealLogPackets;
+                
             }
             else
             {
                 throw new Exception("HTTP Response error. Please check credentials.");
             }
         }
-        private async Task SaveMealLogsAsync(List<MealLog> mealLogs)
+        private async Task SaveMealLogsAsync(List<MealLogPacket> mealLogPackets)
         {
-            foreach (MealLog mealLog in mealLogs)
+            foreach (MealLogPacket mealLogPacket in mealLogPackets)
             {
+                var mealLog = new MealLog
+                {
+                    UserId = mealLogPacket.UserId,
+                    Name = mealLogPacket.Name,
+                    Date = mealLogPacket.Date,
+                    Calories = mealLogPacket.Calories
+                };
                 if (mealLog.ID != 0)
                 {
                     // Update an existing note.
@@ -119,35 +148,65 @@ namespace HealthLogger.Services
         private async Task UploadActivityLogs()
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Settings.JWDToken);
-            var url = "https://healthtrackerapi20210423160155.azurewebsites.net/api/HealthTracker/AddActivityLogs";
-            var ActivityLogs = await Database.Table<ActivityLog>().ToListAsync();
-            string json = JsonConvert.SerializeObject(ActivityLogs);
+            var url = $"{Settings.HealthTrackerApiUri}/api/HealthTracker/AddActivityLogs";
+            List<ActivityLogPacket> activityLogPackets = new List<ActivityLogPacket>();
+            foreach (ActivityLog activityLog in await Database.Table<ActivityLog>().ToListAsync())
+            {
+                activityLogPackets.Add(new ActivityLogPacket
+                {
+                    UserId = activityLog.UserId,
+                    Name = activityLog.Name,
+                    Date = activityLog.Date,
+                    CaloriesBurnt = activityLog.CaloriesBurnt,
+                    ActiveMinutes = activityLog.ActiveMinutes
+                });
+            }
+            string json = JsonConvert.SerializeObject(activityLogPackets);
             StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
             var ResponseMessage = await httpClient.PostAsync(url, content);
+
             if (ResponseMessage.StatusCode != HttpStatusCode.OK)
             {
-                throw new Exception($"HTTP Response error: {ResponseMessage.StatusCode}. Please check credentials.");
+                throw new Exception($"HTTP Response error: {ResponseMessage.StatusCode}. While uploading activity logs.");
             }
         }
-        private async Task<List<ActivityLog>> DownloadActivityLogs()
+        private async Task<List<ActivityLogPacket>> DownloadActivityLogs()
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Settings.JWDToken);
-            var url = "https://healthtrackerapi20210423160155.azurewebsites.net/api/HealthTracker/GetUserActivityLogs";
-            var content = new StringContent(String.Format("userId={0}", Settings.UserId), Encoding.UTF8, "application/json");
-            var ResponseMessage = await httpClient.PostAsync(url, content);
+            var url = $"{Settings.HealthTrackerApiUri}/api/HealthTracker/GetUserActivityLogs?userId={Settings.UserId}";
+            var ResponseMessage = await httpClient.PostAsync(url, null);
             if (ResponseMessage.StatusCode == HttpStatusCode.OK)
             {
-                return JsonConvert.DeserializeObject<List<ActivityLog>>(await ResponseMessage.Content.ReadAsStringAsync());
+                List<ActivityLogPacket> activityLogPackets = new List<ActivityLogPacket>();
+                foreach (ActivityLog activityLog in JsonConvert.DeserializeObject<List<ActivityLog>>(await ResponseMessage.Content.ReadAsStringAsync()))
+                {
+                    activityLogPackets.Add(new ActivityLogPacket
+                    {
+                        UserId = activityLog.UserId,
+                        Name = activityLog.Name,
+                        CaloriesBurnt = activityLog.CaloriesBurnt,
+                        Date = activityLog.Date
+                    });
+                }
+                return activityLogPackets;
             }
             else
             {
                 throw new Exception("HTTP Response error. Please check credentials.");
             }
         }
-        private async Task SaveActivityLogsAsync(List<ActivityLog> activityLogs)
+        private async Task SaveActivityLogsAsync(List<ActivityLogPacket> activityLogPackets)
         {
-            foreach (ActivityLog activityLog in activityLogs)
+            foreach (ActivityLogPacket activityLogPacket in activityLogPackets)
             {
+                var activityLog = new ActivityLog
+                {
+                    UserId = activityLogPacket.UserId,
+                    Name = activityLogPacket.Name,
+                    ActiveMinutes = activityLogPacket.ActiveMinutes,
+                    Date = activityLogPacket.Date,
+                    CaloriesBurnt = activityLogPacket.CaloriesBurnt
+                };
                 if (activityLog.ID != 0)
                 {
                     // Update an existing note.

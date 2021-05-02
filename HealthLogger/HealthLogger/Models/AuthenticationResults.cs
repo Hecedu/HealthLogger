@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HealthLogger.Models
 {
-    public class RegisterResult
+    public class CloudResult
     {
         public string status { get; set; }
         public string message { get; set; }

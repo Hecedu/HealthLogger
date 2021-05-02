@@ -24,6 +24,33 @@ namespace HealthLogger.ViewModels
                 OnPropertyChanged();
             }
         }
+        public int totalCalories { get; set; }
+        public int TotalCalories
+        {
+            get => totalCalories;
+            set
+            {
+                totalCalories = value;
+                OnPropertyChanged();
+            }
+        }
+        public float caloriesProgress { get; set; }
+        public float CaloriesProgress
+        {
+            get => caloriesProgress;
+            set
+            {
+                if (caloriesProgress <= 1 && caloriesProgress >= 0)
+                {
+                    caloriesProgress= value;
+                    OnPropertyChanged();
+                }
+                else
+                {
+                    caloriesProgress = 1;
+                }
+            }
+        }
 
         public int activeMinutesGoal { get; set; }
         public int ActiveMinutesGoal
@@ -36,16 +63,6 @@ namespace HealthLogger.ViewModels
             }
         }
 
-        public int totalCalories { get; set; }
-        public int TotalCalories
-        {
-            get => totalCalories;
-            set
-            {
-                totalCalories = value;
-                OnPropertyChanged();
-            }
-        }
         public int totalActiveMinutes { get; set; }
         public int TotalActiveMinutes
         {
@@ -54,6 +71,23 @@ namespace HealthLogger.ViewModels
             {
                 totalActiveMinutes = value;
                 OnPropertyChanged();
+            }
+        }
+        public float activeMinutesProgress { get; set; }
+        public float ActiveMinutesProgress
+        {
+            get => activeMinutesProgress;
+            set
+            {
+                if (activeMinutesProgress <= 1 && activeMinutesProgress >= 0)
+                {
+                    activeMinutesProgress = value;
+                    OnPropertyChanged();
+                }
+                else
+                {
+                    activeMinutesProgress = 1;
+                }
             }
         }
 
@@ -77,8 +111,13 @@ namespace HealthLogger.ViewModels
             await LoadItems();
             TotalCalories = totalCalories;
             TotalActiveMinutes = totalActiveMinutes;
+
             CalorieGoal = await DataStore.GetCalorieGoal(true);
             ActiveMinutesGoal = await DataStore.GetActiveMinutesGoal(true);
+
+            CaloriesProgress = (float)TotalCalories/ (float)CalorieGoal;
+            ActiveMinutesProgress = (float)TotalActiveMinutes / (float)ActiveMinutesGoal;
+
         }
 
         async Task LoadItems()

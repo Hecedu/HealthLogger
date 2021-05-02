@@ -4,9 +4,9 @@
              x:Class="HealthLogger.Views.CloudStoragePage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Label Text="Do you want to Backup your local logs to the cloud or sync with the cloud?"  FontSize="Medium" TextColor="Black"></Label>
+            <Button Text="Backup" Command="{Binding BackupCommand}" HorizontalOptions="FillAndExpand"></Button>
+            <Button Text="Sync" Command="{Binding SyncCommand}" HorizontalOptions="FillAndExpand"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

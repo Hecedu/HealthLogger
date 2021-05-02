@@ -24,6 +24,7 @@ namespace HealthLogger.ViewModels
             try
             {
                 await CloudStoreService.Backup();
+                await AlertService.ShowErrorAsync("Backup successful", "Notification", "ok");
             }
             catch (Exception ex)
             {
@@ -35,6 +36,7 @@ namespace HealthLogger.ViewModels
             try
             {
                 await CloudStoreService.Sync();
+                await AlertService.ShowErrorAsync("Sync successful", "Notification", "ok");
             }
             catch (Exception ex)
             {

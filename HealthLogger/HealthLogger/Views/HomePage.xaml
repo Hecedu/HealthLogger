@@ -36,7 +36,7 @@
                                FontAttributes="Bold"
                                TextColor="Gray"
                             HorizontalOptions="CenterAndExpand"/>
-                    <ProgressBar Progress="0.5" ProgressColor="ForestGreen"></ProgressBar>
+                    <ProgressBar Progress="{Binding CaloriesProgress}" ProgressColor="ForestGreen"></ProgressBar>
                 </StackLayout>
                 <StackLayout Grid.Column="1">
                     <Label Text="Active Minutes:" FontSize="Medium" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
@@ -54,7 +54,7 @@
                                FontAttributes="Bold"
                                TextColor="Gray"
                             HorizontalOptions="CenterAndExpand"/>
-                    <ProgressBar Progress="0.5" ProgressColor="ForestGreen"></ProgressBar>
+                    <ProgressBar Progress="{Binding ActiveMinutesProgress}" ProgressColor="ForestGreen"></ProgressBar>
                 </StackLayout>
             </Grid>
             <StackLayout>
