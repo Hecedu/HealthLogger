@@ -11,6 +11,5 @@ namespace HealthLogger.Services
         Task<LoginResult> Login(string username, string password);
         Task<RegisterResult> Register(string username, string email, string password);
         Task<RegisterResult> RegisterAdmin(string username, string email, string password);
-
     }
 }

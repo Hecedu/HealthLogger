@@ -11,10 +11,10 @@ using Xamarin.Forms.Xaml;
 namespace HealthLogger.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class RegisterPage : ContentPage
+    public partial class CloudStoragePage : ContentPage
     {
-        RegisterViewModel ViewModel => BindingContext as RegisterViewModel;
-        public RegisterPage()
+        CloudStorageViewModel ViewModel => BindingContext as CloudStorageViewModel;
+        public CloudStoragePage()
         {
             InitializeComponent();
         }

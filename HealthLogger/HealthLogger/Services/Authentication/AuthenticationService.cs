@@ -32,7 +32,6 @@ namespace HealthLogger.Services
                 throw new Exception("HTTP Response error. Please check credentials.");
             }
         }
-
         public async Task<RegisterResult> Register(string username, string email, string password)
         {
             RegisterModel register = new RegisterModel()
@@ -51,7 +50,6 @@ namespace HealthLogger.Services
             }
             return new RegisterResult { status = "Error", message = "Bad HTTP Response" };
         }
-
         public Task<RegisterResult> RegisterAdmin(string username, string email, string password)
         {
 

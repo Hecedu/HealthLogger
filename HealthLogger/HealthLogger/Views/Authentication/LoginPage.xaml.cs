@@ -13,7 +13,7 @@ namespace HealthLogger.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
-        LoginPageViewModel ViewModel => BindingContext as LoginPageViewModel;
+        LoginViewModel ViewModel => BindingContext as LoginViewModel;
         public LoginPage()
         {
             InitializeComponent();

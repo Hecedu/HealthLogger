@@ -2,15 +2,15 @@
 using HealthLogger.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using Xamarin.Forms;
 
 namespace HealthLogger.ViewModels
 {
-    class RegisterPageViewModel : BaseViewModel
+    class LoginViewModel : BaseViewModel
     {
         private string username;
-        private string email;
         private string password;
 
         public string Username
@@ -18,21 +18,16 @@ namespace HealthLogger.ViewModels
             get => username;
             set => SetProperty(ref username, value);
         }
-
-        public string Email
-        {
-            get => email;
-            set => SetProperty(ref email, value);
-        }
         public string Password
         {
             get => password;
             set => SetProperty(ref password, value);
         }
 
-        public RegisterPageViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore, IAuthenticationService authenticationService, IAlertService alertService) 
+        public LoginViewModel(INavService navService, IDataStore<MealLog, ActivityLog> dataStore, IAuthenticationService authenticationService, IAlertService alertService) 
             : base(navService, dataStore,authenticationService,alertService)
         {
+
             SaveCommand = new Command(OnSave, ValidateSave);
             CancelCommand = new Command(OnCancel);
             this.PropertyChanged +=
@@ -42,34 +37,29 @@ namespace HealthLogger.ViewModels
         public Command SaveCommand { get; }
         public Command CancelCommand { get; }
 
-        private bool ValidateSave()
-        {
-            return !String.IsNullOrWhiteSpace(username) && !String.IsNullOrWhiteSpace(password);
-        }
         private async void OnCancel()
         {
             // This will pop the current page off the navigation stack
             await NavService.GoBack();
         }
 
-
+        private bool ValidateSave()
+        {
+            return !String.IsNullOrWhiteSpace(username)&&!String.IsNullOrWhiteSpace(password);
+        }
         private async void OnSave()
         {
-
-            var result = await AuthenticationService.Register(Username, Email,Password);
-
-            if (result.status == "Success")
+            try
             {
-                await NavService.GoBack();
+                var result = await AuthenticationService.Login(Username, Password);
+                Settings.JWDToken = result.token;
+                Settings.UserId = result.id;
+                await NavService.NavigateTo<CloudStorageViewModel>();
             }
-            else
+            catch (Exception ex)
             {
-                await AlertService.ShowErrorAsync(result.message, "Error", "ok");
+                await AlertService.ShowErrorAsync(ex.Message, "Error", "ok");
             }
-
-            // This will pop the current page off the navigation stack
-
-            await NavService.GoBack();
         }
     }
 }

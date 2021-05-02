@@ -11,12 +11,13 @@ namespace HealthLogger.Services
 {
     class FoodSearchService : IFoodSearchService
     {
+        WebClient webClient = new WebClient();
+
         public async Task<FoodResult> GetFood(string searchQuery)
         {
             string url = GetUrl(searchQuery);
-
-            var webclient = new WebClient();
-            var json = await webclient.DownloadStringTaskAsync(url);
+            webClient = new WebClient();
+            var json = await webClient.DownloadStringTaskAsync(url);
             return JsonConvert.DeserializeObject<FoodResult>(json);
             
         }

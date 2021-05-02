@@ -50,7 +50,7 @@ namespace HealthLogger.Services
             }
         }
 
-        public async Task DeleteCloudUserLogs()
+        private async Task DeleteCloudUserLogs()
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Settings.JWDToken);
             var url = "https://healthtrackerapi20210423160155.azurewebsites.net/api/HealthTracker/DeleteUserLogs";
@@ -61,13 +61,13 @@ namespace HealthLogger.Services
                 throw new Exception($"HTTP Response error: {ResponseMessage.StatusCode}. Please check credentials.");
             }
         }
-        public async Task DeleteLocalLogs()
+        private async Task DeleteLocalLogs()
         {
             await DeleteLocalActivityLogsAsync();
             await DeleteLocalMealLogsAsync();
         }
 
-        public async Task UploadMealLogs()
+        private async Task UploadMealLogs()
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Settings.JWDToken);
             var url = "https://healthtrackerapi20210423160155.azurewebsites.net/api/HealthTracker/AddMealLogs";
@@ -80,7 +80,7 @@ namespace HealthLogger.Services
                 throw new Exception($"HTTP Response error: {ResponseMessage.StatusCode}. Please check credentials.");
             }
         }
-        public async Task<List<MealLog>> DownloadMealLogs()
+        private async Task<List<MealLog>> DownloadMealLogs()
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Settings.JWDToken);
             var url = "https://healthtrackerapi20210423160155.azurewebsites.net/api/HealthTracker/GetUserMealLogs";
@@ -95,7 +95,7 @@ namespace HealthLogger.Services
                 throw new Exception("HTTP Response error. Please check credentials.");
             }
         }
-        public async Task SaveMealLogsAsync(List<MealLog> mealLogs)
+        private async Task SaveMealLogsAsync(List<MealLog> mealLogs)
         {
             foreach (MealLog mealLog in mealLogs)
             {
@@ -111,12 +111,12 @@ namespace HealthLogger.Services
                 }
             }
         }
-        public async Task DeleteLocalMealLogsAsync()
+        private async Task DeleteLocalMealLogsAsync()
         {
             await Database.DeleteAllAsync<MealLog>();
         }
 
-        public async Task UploadActivityLogs()
+        private async Task UploadActivityLogs()
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Settings.JWDToken);
             var url = "https://healthtrackerapi20210423160155.azurewebsites.net/api/HealthTracker/AddActivityLogs";
@@ -129,7 +129,7 @@ namespace HealthLogger.Services
                 throw new Exception($"HTTP Response error: {ResponseMessage.StatusCode}. Please check credentials.");
             }
         }
-        public async Task<List<ActivityLog>> DownloadActivityLogs()
+        private async Task<List<ActivityLog>> DownloadActivityLogs()
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Settings.JWDToken);
             var url = "https://healthtrackerapi20210423160155.azurewebsites.net/api/HealthTracker/GetUserActivityLogs";
@@ -144,7 +144,7 @@ namespace HealthLogger.Services
                 throw new Exception("HTTP Response error. Please check credentials.");
             }
         }
-        public async Task SaveActivityLogsAsync(List<ActivityLog> activityLogs)
+        private async Task SaveActivityLogsAsync(List<ActivityLog> activityLogs)
         {
             foreach (ActivityLog activityLog in activityLogs)
             {
@@ -160,7 +160,7 @@ namespace HealthLogger.Services
                 }
             }
         }
-        public async Task DeleteLocalActivityLogsAsync()
+        private async Task DeleteLocalActivityLogsAsync()
         {
             await Database.DeleteAllAsync<ActivityLog>();
         }
